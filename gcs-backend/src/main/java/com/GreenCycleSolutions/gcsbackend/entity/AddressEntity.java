@@ -1,9 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.entity;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "address")
+@Table(name = "address", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueAddress", columnNames = {"street", "street_number", "block", "entrance", "apartment_number"})})
 public class AddressEntity {
 
     @Id

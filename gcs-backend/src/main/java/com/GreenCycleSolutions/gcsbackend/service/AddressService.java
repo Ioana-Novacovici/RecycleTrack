@@ -21,27 +21,31 @@ public class AddressService {
     public List<AddressDTO> getAllAddresses() {
         return addressRepository.findAll()
                 .stream()
-                .map(addressEntity -> AddressDTO.builder()
-                        .street(addressEntity.getStreet())
-                        .streetNumber((addressEntity.getStreetNumber()))
-                        .block(addressEntity.getBlock())
-                        .entrance(addressEntity.getEntrance())
-                        .apartmentNumber(addressEntity.getApartmentNumber())
-                        .build())
+                .map(AddressService::convertToAddressDTO)
                 .collect(Collectors.toList());
     }
 
     public void addAddress(AddressDTO addressDTO) {
-        addressRepository.save(convertAddressDtoToEntity(addressDTO));
+        addressRepository.save(convertToAddressEntity(addressDTO));
     }
 
-    private static AddressEntity convertAddressDtoToEntity(AddressDTO addressDTO) {
+    private static AddressEntity convertToAddressEntity(AddressDTO addressDTO) {
         return AddressEntity.builder()
                 .street(addressDTO.getStreet())
                 .streetNumber(addressDTO.getStreetNumber())
                 .block(addressDTO.getBlock())
                 .entrance(addressDTO.getEntrance())
                 .apartmentNumber(addressDTO.getApartmentNumber())
+                .build();
+    }
+
+    private static AddressDTO convertToAddressDTO(AddressEntity addressEntity) {
+        return AddressDTO.builder()
+                .street(addressEntity.getStreet())
+                .streetNumber(addressEntity.getStreetNumber())
+                .block(addressEntity.getBlock())
+                .entrance(addressEntity.getEntrance())
+                .apartmentNumber(addressEntity.getApartmentNumber())
                 .build();
     }
 }
