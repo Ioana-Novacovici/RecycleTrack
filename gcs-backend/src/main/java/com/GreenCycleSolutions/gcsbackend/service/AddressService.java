@@ -3,10 +3,12 @@ package com.GreenCycleSolutions.gcsbackend.service;
 
 import com.GreenCycleSolutions.gcsbackend.dto.AddressDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.AddressEntity;
+import com.GreenCycleSolutions.gcsbackend.exception.AddressNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.AddressRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,16 +20,31 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public List<AddressDTO> getAllAddresses() {
-        return addressRepository.findAll()
-                .stream()
-                .map(AddressService::convertToAddressDTO)
-                .collect(Collectors.toList());
+    public AddressDTO findById(Integer id) {
+        Optional<AddressEntity> address = addressRepository.findById(id);
+        if(address.isPresent()){
+            return convertToAddressDTO(address.get());
+        } else{
+            throw new AddressNotFoundException();
+        }
+    }
+
+    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber) {
+        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber);
+        if(!addresses.isEmpty()){
+            return addresses.stream()
+                    .map(AddressService::convertToAddressDTO)
+                    .collect(Collectors.toList());
+        } else {
+            throw new AddressNotFoundException();
+        }
+
     }
 
     public void addAddress(AddressDTO addressDTO) {
         addressRepository.save(convertToAddressEntity(addressDTO));
     }
+
 
     private static AddressEntity convertToAddressEntity(AddressDTO addressDTO) {
         return AddressEntity.builder()

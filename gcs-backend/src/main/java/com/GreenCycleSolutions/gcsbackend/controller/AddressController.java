@@ -5,6 +5,7 @@ import com.GreenCycleSolutions.gcsbackend.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,30 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-
-    @Operation(summary = "Gets all addresses",
-            description = "Returns a list of all existing addresses")
-    @GetMapping()
-    public List<AddressDTO> getAllAddresses() {
-        return addressService.getAllAddresses();
+    @Operation(summary = "Get an address by id")
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable @NotNull Integer id) {
+        return new ResponseEntity<>(addressService.findById(id), HttpStatus.OK);
     }
 
-    @Operation(summary = "Add a new address")
+    @Operation(summary = "Search for certain address based on filter")
+    @GetMapping
+    public ResponseEntity<List<AddressDTO>> findAddress(
+            @RequestParam(required = false) String street,
+            @RequestParam(required = false) Integer number,
+            @RequestParam(required = false) String block,
+            @RequestParam(required = false) String entrance,
+            @RequestParam(required = false) Integer apartmentNumber) {
+        List<AddressDTO> addressDTOs = addressService
+                .findAddressBy(street, number, block, entrance, apartmentNumber);
+        return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Add an address")
     @PostMapping
     public ResponseEntity<?> addAddress(@Valid @RequestBody  AddressDTO addressDTO) {
         addressService.addAddress(addressDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }
