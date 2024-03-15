@@ -33,4 +33,8 @@ public class AddressEntity {
 
     @Column(name = "apartment_number")
     private Integer apartmentNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 }
