@@ -1,6 +1,5 @@
 package com.GreenCycleSolutions.gcsbackend.controller;
 
-import com.GreenCycleSolutions.gcsbackend.exception.AddressAlreadyExistsException;
 import com.GreenCycleSolutions.gcsbackend.exception.AddressNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class AddressExceptionAdvice {
 
     @ExceptionHandler
     public ResponseEntity<Object> handleException(DataIntegrityViolationException e){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(new AddressAlreadyExistsException().getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
     }
 
     @ExceptionHandler

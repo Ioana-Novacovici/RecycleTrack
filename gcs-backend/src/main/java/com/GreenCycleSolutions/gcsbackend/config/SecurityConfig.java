@@ -27,7 +27,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
-//                .formLogin(withDefaults());
 
         return http.build();
     }

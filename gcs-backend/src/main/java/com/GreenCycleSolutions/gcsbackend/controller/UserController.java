@@ -4,7 +4,6 @@ package com.GreenCycleSolutions.gcsbackend.controller;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
 import com.GreenCycleSolutions.gcsbackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/users")
 @Tag(name = "User Controller", description = "API for user related operations")
-@SecurityRequirement(name = "gsc")
 public class UserController {
 
     private final UserService userService;
