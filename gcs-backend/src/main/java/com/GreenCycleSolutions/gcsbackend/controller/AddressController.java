@@ -3,6 +3,7 @@ package com.GreenCycleSolutions.gcsbackend.controller;
 import com.GreenCycleSolutions.gcsbackend.dto.AddressDTO;
 import com.GreenCycleSolutions.gcsbackend.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/addresses")
 @Tag(name = "Address Controller", description = "API for address related operations")
+@SecurityRequirement(name = "gcs")
 public class AddressController {
 
     private final AddressService addressService;
