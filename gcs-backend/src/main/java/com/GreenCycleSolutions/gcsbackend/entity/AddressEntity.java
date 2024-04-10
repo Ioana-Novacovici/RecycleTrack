@@ -34,7 +34,7 @@ public class AddressEntity {
     @Column(name = "apartment_number")
     private Integer apartmentNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 }

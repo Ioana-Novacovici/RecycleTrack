@@ -33,4 +33,8 @@ public class AddressDTO {
     @NotNull(message = "Apartment number must not be null")
     @Schema(description = "Apartment number(is optional)", example = "10")
     private Integer apartmentNumber;
+
+    @NotNull(message = "The address must have an owner")
+    @Schema(description = "The user id, owner of the address", example = "1")
+    private Integer userId;
 }

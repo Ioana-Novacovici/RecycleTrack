@@ -1,6 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.controller;
 
-import com.GreenCycleSolutions.gcsbackend.exception.AddressNotFoundException;
+import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class AddressExceptionAdvice {
+public class ExceptionAdvice {
 
     record ErrorDTO(String message) {
     }
@@ -25,7 +25,7 @@ public class AddressExceptionAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Object> handleException(AddressNotFoundException e){
+    public ResponseEntity<Object> handleException(ResourceNotFoundException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
     }
 

@@ -1,12 +1,14 @@
 package com.GreenCycleSolutions.gcsbackend.entity;
 
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Role;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,7 +20,7 @@ import java.util.Set;
 public class UserEntity {
 
     @Id()
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(unique = true)
@@ -34,9 +36,11 @@ public class UserEntity {
     private String email;
 
     @Column
+    @Nullable
     private String username;
 
     @Column
+    @Nullable
     private String password;
 
     @Column
