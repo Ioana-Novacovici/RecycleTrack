@@ -16,7 +16,8 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Integer>
             "(:streetNumber IS NULL OR :streetNumber = 0 OR a.streetNumber = :streetNumber) AND " +
             "(:block IS NULL OR a.block = :block) AND " +
             "(:entrance IS NULL OR a.entrance = :entrance) AND " +
-            "(:apartmentNumber IS NULL OR :apartmentNumber = 0 OR a.apartmentNumber = :apartmentNumber)")
+            "(:apartmentNumber IS NULL OR :apartmentNumber = 0 OR a.apartmentNumber = :apartmentNumber) AND" +
+            "(:userId IS NULL OR a.user.id = :userId)")
     List<AddressEntity> findAllBy(@Param("street") String street, @Param("streetNumber") Integer streetNumber, @Param("block") String block,
-                                  @Param("entrance") String entrance, @Param("apartmentNumber") Integer apartmentNumber);
+                                  @Param("entrance") String entrance, @Param("apartmentNumber") Integer apartmentNumber, @Param("userId")Integer userId);
 }

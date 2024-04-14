@@ -33,8 +33,8 @@ public class AddressService {
         }
     }
 
-    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber) {
-        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber);
+    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber, Integer userId) {
+        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber, userId);
         if(!addresses.isEmpty()) {
             return addresses.stream()
                     .map(AddressService::convertToAddressDTO)
@@ -52,7 +52,7 @@ public class AddressService {
         if(userEntity.isPresent()) {
             addressRepository.save(convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
-            throw new ResourceNotFoundException("The user id provided is not correct.");
+            throw new ResourceNotFoundException("The user with id" + addressDTO.getUserId() + "does not exist");
         }
     }
 
