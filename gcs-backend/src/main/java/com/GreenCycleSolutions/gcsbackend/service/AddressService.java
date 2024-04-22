@@ -48,12 +48,11 @@ public class AddressService {
     //TODO: retrieve here all addresses of a user findAddressesBy(Integer userId)
 
     public void addAddress(AddressDTO addressDTO) {
-        var u = userRepository.findByUsername("user");
         Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getUserId());
         if(userEntity.isPresent()) {
             addressRepository.save(convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
-            throw new ResourceNotFoundException("The user with id" + addressDTO.getUserId() + "does not exist");
+            throw new ResourceNotFoundException("The user with id " + addressDTO.getUserId() + " does not exist");
         }
     }
 

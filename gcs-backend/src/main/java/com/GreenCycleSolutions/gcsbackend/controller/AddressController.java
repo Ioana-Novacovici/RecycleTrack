@@ -47,6 +47,7 @@ public class AddressController {
     @Operation(summary = "Add an address")
     @PostMapping
     public ResponseEntity<?> addAddress(@Valid @RequestBody  AddressDTO addressDTO) {
+        //TODO change this add an address by username - maybe
         addressService.addAddress(addressDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
