@@ -1,6 +1,7 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
 
+import com.GreenCycleSolutions.gcsbackend.converter.AddressConverter;
 import com.GreenCycleSolutions.gcsbackend.dto.AddressDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.AddressEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
@@ -27,7 +28,7 @@ public class AddressService {
     public AddressDTO findById(Integer id) {
         Optional<AddressEntity> address = addressRepository.findById(id);
         if(address.isPresent()) {
-            return convertToAddressDTO(address.get());
+            return AddressConverter.convertToAddressDTO(address.get());
         } else {
             throw new ResourceNotFoundException("Address with id: " + id + " not found");
         }
@@ -37,7 +38,7 @@ public class AddressService {
         List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber, userId);
         if(!addresses.isEmpty()) {
             return addresses.stream()
-                    .map(AddressService::convertToAddressDTO)
+                    .map(AddressConverter::convertToAddressDTO)
                     .collect(Collectors.toList());
         } else {
             throw new ResourceNotFoundException("No address found based on filter");
@@ -45,37 +46,12 @@ public class AddressService {
 
     }
 
-    //TODO: retrieve here all addresses of a user findAddressesBy(Integer userId)
-
     public void addAddress(AddressDTO addressDTO) {
         Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getUserId());
         if(userEntity.isPresent()) {
-            addressRepository.save(convertToAddressEntity(addressDTO, userEntity.get()));
+            addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
             throw new ResourceNotFoundException("The user with id " + addressDTO.getUserId() + " does not exist");
         }
-    }
-
-
-    private static AddressEntity convertToAddressEntity(AddressDTO addressDTO, UserEntity userEntity) {
-        return AddressEntity.builder()
-                .street(addressDTO.getStreet())
-                .streetNumber(addressDTO.getStreetNumber())
-                .block(addressDTO.getBlock())
-                .entrance(addressDTO.getEntrance())
-                .apartmentNumber(addressDTO.getApartmentNumber())
-                .user(userEntity)
-                .build();
-    }
-
-    private static AddressDTO convertToAddressDTO(AddressEntity addressEntity) {
-        return AddressDTO.builder()
-                .street(addressEntity.getStreet())
-                .streetNumber(addressEntity.getStreetNumber())
-                .block(addressEntity.getBlock())
-                .entrance(addressEntity.getEntrance())
-                .apartmentNumber(addressEntity.getApartmentNumber())
-                .userId(addressEntity.getUser().getId())
-                .build();
     }
 }
