@@ -24,7 +24,7 @@ public class AddressConverter {
                 .block(addressEntity.getBlock())
                 .entrance(addressEntity.getEntrance())
                 .apartmentNumber(addressEntity.getApartmentNumber())
-                .userId(addressEntity.getUser().getId())
+                .username(addressEntity.getUser().getUsername())
                 .build();
     }
 }

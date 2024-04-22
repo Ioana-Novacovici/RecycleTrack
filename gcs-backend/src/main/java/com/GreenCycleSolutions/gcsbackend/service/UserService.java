@@ -14,14 +14,16 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserConverter userConverter) {
         this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
     public void addUser(UserDTO userDTO) {
         //TODO: generate username and password for user
-        userRepository.save(UserConverter.convertToUserEntity(userDTO));
+        userRepository.save(userConverter.convertToUserEntity(userDTO));
     }
 
     public UserDTO getUserById(Integer id) {

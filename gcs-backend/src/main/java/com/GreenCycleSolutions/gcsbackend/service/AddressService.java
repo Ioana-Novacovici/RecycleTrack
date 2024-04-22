@@ -47,11 +47,11 @@ public class AddressService {
     }
 
     public void addAddress(AddressDTO addressDTO) {
-        Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getUserId());
+        Optional<UserEntity> userEntity = userRepository.findByUsername(addressDTO.getUsername());
         if(userEntity.isPresent()) {
             addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
-            throw new ResourceNotFoundException("The user with id " + addressDTO.getUserId() + " does not exist");
+            throw new ResourceNotFoundException("The user with username " + addressDTO.getUsername() + " does not exist");
         }
     }
 }

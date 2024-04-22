@@ -35,6 +35,6 @@ public class AddressDTO {
     private Integer apartmentNumber;
 
     @NotNull(message = "The address must have an owner")
-    @Schema(description = "The user id, owner of the address", example = "1")
-    private Integer userId;
+    @Schema(description = "The username, owner of the address", example = "Maria_Popescu")
+    private String username;
 }
