@@ -1,5 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.controller;
 
+import com.GreenCycleSolutions.gcsbackend.exception.AccountGenerationException;
 import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class ExceptionAdvice {
     @ExceptionHandler
     public ResponseEntity<Object> handleException(ResourceNotFoundException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleException(AccountGenerationException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
     }
 
     @ExceptionHandler

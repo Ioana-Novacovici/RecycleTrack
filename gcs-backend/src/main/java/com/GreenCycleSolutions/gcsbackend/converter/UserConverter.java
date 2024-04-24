@@ -25,15 +25,12 @@ public class UserConverter {
     }
 
     public UserEntity convertToUserEntity(UserDTO userDTO) {
-        //TODO: encrypt password & cnp before storing it into DB
         return UserEntity.builder()
                 .cnp(userDTO.getCnp())
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .email(userDTO.getEmail())
                 .role(userDTO.getRole())
-                .username(accountGenerationService
-                        .generateUsername(userDTO.getFirstName(), userDTO.getLastName()))
                 .build();
     }
 }
