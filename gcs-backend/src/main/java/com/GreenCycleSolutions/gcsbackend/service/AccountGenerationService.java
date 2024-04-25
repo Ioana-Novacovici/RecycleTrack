@@ -50,7 +50,7 @@ public class AccountGenerationService {
                 user.setUsername(newUsername);
                 userRepository.save(user);
             } else {
-                throw new AccountGenerationException("The old username value is invalid");
+                throw new AccountGenerationException("Username value is invalid");
             }
         } else {
             throw new UsernameAlreadyExistsException("This username is already used. Try again!");
@@ -64,7 +64,7 @@ public class AccountGenerationService {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         } else {
-            throw new AccountGenerationException("The username value is invalid");
+            throw new AccountGenerationException("Username value is invalid");
         }
     }
 
@@ -111,15 +111,18 @@ public class AccountGenerationService {
                 }
                 var username = generateUsername(user.getFirstName(), user.getLastName());
                 var password = generatePassword();
+                //update user with values for the account generated
                 user.setPassword(passwordEncoder.encode(password));
                 user.setUsername(username);
+                //update email with value provided
+                user.setEmail(userDTO.getEmail());
                 userRepository.save(user);
                 emailService.sendSuccessEmail(userDTO, username, password);
             } else {
-                throw new AccountGenerationException("The data you provided is incorrect");
+                throw new AccountGenerationException("The data provided is incorrect");
             }
         } else {
-            throw new AccountGenerationException("The data you provided is incorrect");
+            throw new AccountGenerationException("The data provided is incorrect");
         }
     }
 }

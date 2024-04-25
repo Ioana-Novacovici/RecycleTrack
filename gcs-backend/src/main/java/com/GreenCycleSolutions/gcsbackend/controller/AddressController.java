@@ -37,10 +37,9 @@ public class AddressController {
             @RequestParam(required = false) String block,
             @RequestParam(required = false) String entrance,
             @RequestParam(required = false) Integer apartmentNumber,
-            @RequestParam(required = false) Integer userId) {
-        //TODO change this when username generation logic is done, userId should not be exposed
+            @RequestParam(required = false) String username) {
         List<AddressDTO> addressDTOs = addressService
-                .findAddressBy(street, number, block, entrance, apartmentNumber, userId);
+                .findAddressBy(street, number, block, entrance, apartmentNumber, username);
         return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
     }
 

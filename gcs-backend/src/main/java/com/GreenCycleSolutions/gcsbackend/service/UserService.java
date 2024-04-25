@@ -8,7 +8,6 @@ import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,7 +22,6 @@ public class UserService {
     }
 
     public void addUser(UserDTO userDTO) {
-        //TODO: generate username and password for user
         userRepository.save(userConverter.convertToUserEntity(userDTO));
     }
 

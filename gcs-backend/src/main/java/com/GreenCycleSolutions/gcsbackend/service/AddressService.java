@@ -34,8 +34,8 @@ public class AddressService {
         }
     }
 
-    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber, Integer userId) {
-        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber, userId);
+    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber, String username) {
+        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber, username);
         if(!addresses.isEmpty()) {
             return addresses.stream()
                     .map(AddressConverter::convertToAddressDTO)
@@ -43,15 +43,14 @@ public class AddressService {
         } else {
             throw new ResourceNotFoundException("No address found based on filter");
         }
-
     }
 
     public void addAddress(AddressDTO addressDTO) {
-        Optional<UserEntity> userEntity = userRepository.findByUsername(addressDTO.getUsername());
+        Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getId());
         if(userEntity.isPresent()) {
             addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
-            throw new ResourceNotFoundException("The user with username " + addressDTO.getUsername() + " does not exist");
+            throw new ResourceNotFoundException("The user with id " + addressDTO.getId() + " does not exist");
         }
     }
 }
