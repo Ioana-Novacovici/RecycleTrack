@@ -34,7 +34,7 @@ public class AddressEntity {
     @Column(name = "apartment_number")
     private Integer apartmentNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 }
