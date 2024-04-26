@@ -1,5 +1,6 @@
 import React from "react";
 import LogoImage from "../../assets/images/gcs_logo.png";
+import { Link } from "react-router-dom";
 import "../header/style.css";
 
 function Header() {
@@ -38,9 +39,9 @@ function Header() {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link to="/" className="dropdown-item">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a className="dropdown-item" href="#">
@@ -55,9 +56,9 @@ function Header() {
               </ul>
             </li>
             <li className="nav-item me-3">
-              <a className="nav-link" href="#">
+              <Link to="/login" className="nav-link">
                 Login
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
