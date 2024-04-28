@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
@@ -13,21 +14,39 @@ function Login() {
         Login
       </h4>
       <div className="mb-3">
-        <label className="form-label fw-bold" style={{ color: "#354a3f" }}>
+        <label
+          htmlFor="username"
+          className="form-label fw-bold"
+          style={{ color: "#354a3f" }}
+        >
           User name
         </label>
-        <input type="text" className="form-control" id="username" />
+        <input
+          type="text"
+          className="form-control"
+          id="username"
+          placeholder="Enter username"
+        />
       </div>
       <div className="mb-3">
-        <label className="form-label fw-bold" style={{ color: "#354a3f" }}>
+        <label
+          htmlFor="password"
+          className="form-label fw-bold"
+          style={{ color: "#354a3f" }}
+        >
           Password
         </label>
-        <input type="password" className="form-control" id="password" />
+        <input
+          type="password"
+          className="form-control"
+          id="password"
+          placeholder="Enter password"
+        />
       </div>
       <div className="mb-3 ">
-        <a className="form-label">
+        <Link to="/register" className="form-label">
           Haven't registered yet? Request access here.
-        </a>
+        </Link>
       </div>
       <button
         type="submit"
@@ -38,7 +57,7 @@ function Login() {
           color: "#354a3f",
         }}
       >
-        Submit
+        Login
       </button>
     </form>
   );
