@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/swagger-ui/**", "/gcs-openapi/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/gcs-openapi/**", "/auth/**").permitAll()
                         .requestMatchers("/addresses/**").hasAuthority("ADMIN")
                         .requestMatchers("/users/**").hasAuthority("USER")
                         .anyRequest().authenticated()
