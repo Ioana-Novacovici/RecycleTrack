@@ -2,22 +2,54 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Login() {
-  const [inputValue, setInputValue] = useState("");
-  const [isValid, setIsValid] = useState(true);
+  const [username, setUsername] = useState("");
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [usernameError, setUsernameError] = useState();
+  const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [passwordError, setPasswordError] = useState();
 
   const handleLoginAction = (e) => {
     e.preventDefault();
-    if (inputValue.trim() === "") {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
+    if (username.trim() === "") {
+      setIsUsernameValid(false);
+      setUsernameError("Username required");
+    }
+    if (password.trim() === "") {
+      setIsPasswordValid(false);
+      setPasswordError("Password required");
+    }
+    if (username.trim() !== "" && password.trim() !== "") {
+      setIsUsernameValid(true);
+      setIsPasswordValid(true);
       // Handle form submission here
     }
   };
 
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
-    setIsValid(true); // Reset validation when user starts typing
+  function validateUsername() {
+    return !isUsernameValid
+      ? "is-invalid"
+      : isUsernameValid && username.trim() !== ""
+      ? "is-valid"
+      : "";
+  }
+
+  function validatePassword() {
+    return !isPasswordValid
+      ? "is-invalid"
+      : isPasswordValid && password.trim() !== ""
+      ? "is-valid"
+      : "";
+  }
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setIsUsernameValid(true);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setIsPasswordValid(true);
   };
 
   return (
@@ -43,19 +75,13 @@ function Login() {
         </label>
         <input
           type="text"
-          className={`form-control ${
-            !isValid
-              ? "is-invalid"
-              : isValid && inputValue.trim() !== ""
-              ? "is-valid"
-              : ""
-          }`}
+          className={`form-control ${validateUsername()}`}
           id="username"
           placeholder="Enter username"
-          value={inputValue}
-          onChange={handleChange}
+          value={username}
+          onChange={handleUsernameChange}
         />
-        <div className="invalid-feedback">Username required.</div>
+        <div className="invalid-feedback">{usernameError}</div>
       </div>
       <div className="mb-3">
         <label
@@ -67,15 +93,13 @@ function Login() {
         </label>
         <input
           type="password"
-          // className={`form-control ${
-          //   formData.passwordValid ? "is-valid" : "is-invalid"
-          // }`}
+          className={`form-control ${validatePassword()}`}
           id="password"
           placeholder="Enter password"
-          // value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={handlePasswordChange}
         />
-        <div className="invalid-feedback">Please provide a password</div>
+        <div className="invalid-feedback">{passwordError}</div>
       </div>
       <div className="mb-3 ">
         <Link to="/register" className="form-label">
