@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogin } from "../../api/AuthenticationService";
+import ErrorModal from "../error-modal";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -8,6 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [passwordError, setPasswordError] = useState();
+  const { login, error } = useLogin();
 
   const handleLoginAction = (e) => {
     e.preventDefault();
@@ -22,7 +25,7 @@ function Login() {
     if (username.trim() !== "" && password.trim() !== "") {
       setIsUsernameValid(true);
       setIsPasswordValid(true);
-      // Handle form submission here
+      const response = login(username, password);
     }
   };
 
@@ -59,6 +62,9 @@ function Login() {
       noValidate
       onSubmit={handleLoginAction}
     >
+      {error && (
+        <ErrorModal errorTitle={"Login Failure"} errorMessage={error} />
+      )}
       <h4
         className="text-center mt-3 mb-5 fw-normal fst-italic"
         style={{ color: "#354a3f" }}
@@ -106,18 +112,33 @@ function Login() {
           Haven't registered yet? Request access here.
         </Link>
       </div>
-      <button
-        type="submit"
-        className="btn w-100 fw-bold"
-        style={{
-          background: "#abb5aa",
-          borderRadius: "5px",
-          color: "#354a3f",
-        }}
-        // disabled={!formData.formValid}
-      >
-        Login
-      </button>
+      {error ? (
+        <button
+          type="submit"
+          className="btn w-100 fw-bold"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          style={{
+            background: "#abb5aa",
+            borderRadius: "5px",
+            color: "#354a3f",
+          }}
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="btn w-100 fw-bold"
+          style={{
+            background: "#abb5aa",
+            borderRadius: "5px",
+            color: "#354a3f",
+          }}
+        >
+          Login
+        </button>
+      )}
     </form>
   );
 }

@@ -6,6 +6,8 @@ import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +35,16 @@ public class ExceptionAdvice {
 
     @ExceptionHandler
     public ResponseEntity<Object> handleException(AccountGenerationException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler()
+    public ResponseEntity<Object> handleException(AuthenticationServiceException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler()
+    public ResponseEntity<Object> handleException(BadCredentialsException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
     }
 
