@@ -8,24 +8,30 @@ const client = axios.create({
 });
 
 export const useLogin = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const login = async (username, password) => {
-    setError(null);
     try {
-      let response = await client.post("/login", {
-        username: username,
-        password: password,
-      });
+      let response = await client.post(
+        "/login",
+        {
+          username: username,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
       console.log(response);
       const user = response.data.username;
       const role = response.data.role;
       localStorage.setItem("user", JSON.stringify(response.data));
       setAuth({ user, role });
       navigate("/");
-      // Handle successful response
-      console.log(response);
     } catch (error) {
       if (error.response) {
         setError("The username or the password is not correct");
@@ -36,4 +42,22 @@ export const useLogin = () => {
     }
   };
   return { login, error };
+};
+
+export const useLogout = () => {
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const logout = async () => {
+    try {
+      let response = await client.post("/logout");
+      console.log(response);
+      localStorage.removeItem("user");
+      setAuth({});
+      console.log(auth);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return logout;
 };

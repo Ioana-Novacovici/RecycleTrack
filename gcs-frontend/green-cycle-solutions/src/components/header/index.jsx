@@ -3,18 +3,24 @@ import LogoImage from "../../assets/images/gcs_logo.png";
 import { Link } from "react-router-dom";
 import "../header/style.css";
 import AuthContext from "../../api/AuthProvider";
+import { useLogout } from "../../api/AuthenticationService";
 
 function Header() {
   const { auth } = useContext(AuthContext);
+  const logout = useLogout();
+
+  const handleLogoutAction = (e) => {
+    e.preventDefault();
+    logout();
+  };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-header">
       <div className="container-fluid ">
         <img src={LogoImage} alt="GCS" width="4%" height="4%" />
         <div className="navbar-brand fs-4 ms-4" href="#">
-          Green Cycle Solutions {auth ? <p>{auth.user}</p> : null}
+          Green Cycle Solutions
         </div>
-
         <button
           className="navbar-toggler"
           type="button"
@@ -59,11 +65,19 @@ function Header() {
                 </li>
               </ul>
             </li>
-            <li className="nav-item me-3">
-              <Link to="/login" className="nav-link">
-                Login
-              </Link>
-            </li>
+            {auth.user ? (
+              <li className="nav-item me-3">
+                <a className="nav-link" onClick={handleLogoutAction}>
+                  Logout
+                </a>
+              </li>
+            ) : (
+              <li className="nav-item me-3">
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
