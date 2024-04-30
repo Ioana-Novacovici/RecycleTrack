@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../api/AuthenticationService";
 import ErrorModal from "../error-modal";
@@ -14,15 +14,18 @@ function Login() {
 
   const handleLoginAction = (e) => {
     e.preventDefault();
+    let isValid = true;
     if (username.trim() === "") {
       setIsUsernameValid(false);
       setUsernameError("Username required");
+      isValid = false;
     }
     if (password.trim() === "") {
       setIsPasswordValid(false);
       setPasswordError("Password required");
+      isValid = false;
     }
-    if (username.trim() !== "" && password.trim() !== "") {
+    if (isValid) {
       setIsUsernameValid(true);
       setIsPasswordValid(true);
       login(username, password);
