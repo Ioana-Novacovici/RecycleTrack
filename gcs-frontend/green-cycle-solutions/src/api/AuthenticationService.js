@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "./AuthProvider";
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: "http://localhost:8080/auth",
 });
 

@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/swagger-ui/**", "/gcs-openapi/**", "/auth/**").permitAll()
                         .requestMatchers("/addresses/**").hasAuthority("ADMIN")
-                        .requestMatchers("/users/**").hasAuthority("USER")
+                        .requestMatchers("/users/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
