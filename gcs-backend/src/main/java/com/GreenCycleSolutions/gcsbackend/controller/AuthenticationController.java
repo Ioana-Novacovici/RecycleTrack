@@ -53,7 +53,7 @@ public class AuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         HttpSession session = request.getSession(true);
         session.setAttribute("user", userDetails);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 
     @Operation(summary = "User log out")

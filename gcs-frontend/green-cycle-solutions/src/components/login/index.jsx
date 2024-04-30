@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../api/AuthenticationService";
 import ErrorModal from "../error-modal";
@@ -25,7 +25,7 @@ function Login() {
     if (username.trim() !== "" && password.trim() !== "") {
       setIsUsernameValid(true);
       setIsPasswordValid(true);
-      const response = login(username, password);
+      login(username, password);
     }
   };
 
