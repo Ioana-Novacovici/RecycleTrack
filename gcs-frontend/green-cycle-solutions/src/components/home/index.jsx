@@ -6,7 +6,7 @@ function Home() {
 
   return (
     <div>
-      Here is Home{" "}
+      Here is Home
       {auth.user ? (
         <p>
           Hello {auth.user} {auth.role}
