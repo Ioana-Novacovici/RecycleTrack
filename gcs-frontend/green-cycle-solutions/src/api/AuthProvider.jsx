@@ -4,7 +4,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
-    // Initialize state with data from localStorage if available
+    // get data from localStorage if available and initialize auth
     const storedAuth = localStorage.getItem("user");
     return storedAuth
       ? {
