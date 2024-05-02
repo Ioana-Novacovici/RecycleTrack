@@ -34,7 +34,7 @@ export const useLogin = () => {
       navigate("/");
     } catch (error) {
       if (error.response) {
-        setError("The username or the password is not correct");
+        setError("Bad credentials!");
       } else {
         setError("Something went wrong. Please try again!");
         console.log(error);

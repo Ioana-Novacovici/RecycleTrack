@@ -72,8 +72,13 @@ function Register() {
         );
         console.log(response);
       } catch (error) {
-        setMessage("The data you provided is not correct");
-        // errRef.current.focus();
+        if (error.response) {
+          setMessage(error.response.data.message);
+          console.log(error);
+        } else {
+          setMessage("Something went wrong. Please try again!");
+          console.log(error);
+        }
       }
     }
   };
@@ -154,7 +159,6 @@ function Register() {
       {message ? (
         <div
           ref={errRef}
-          aria-live="assertive"
           className="alert alert-danger d-flex align-items-center"
           role="alert"
         >
