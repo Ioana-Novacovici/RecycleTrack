@@ -116,8 +116,8 @@ public class AccountGenerationService {
                 user.setUsername(username);
                 //update email with value provided
                 user.setEmail(userDTO.getEmail());
-                userRepository.save(user);
                 emailService.sendSuccessEmail(userDTO, username, password);
+                userRepository.save(user);
             } else {
                 throw new AccountGenerationException("There is no record of this person's data, can not activate");
             }

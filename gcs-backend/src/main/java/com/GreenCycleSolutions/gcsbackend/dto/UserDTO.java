@@ -1,5 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.dto;
 
+import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Gender;
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
@@ -35,4 +36,7 @@ public class UserDTO {
 
     @Schema(example = "USER")
     private Role role;
+
+    @Schema(example = "FEMALE")
+    private Gender gender;
 }

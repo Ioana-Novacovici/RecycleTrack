@@ -55,7 +55,7 @@ function Header() {
                 </li>
                 {auth.user ? (
                   <li className="nav-item me-3">
-                    <Link to="/" className="nav-link">
+                    <Link to="/account" className="nav-link">
                       My Account
                     </Link>
                   </li>

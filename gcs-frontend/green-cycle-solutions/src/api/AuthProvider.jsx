@@ -10,8 +10,9 @@ export const AuthProvider = ({ children }) => {
       ? {
           user: JSON.parse(storedAuth).user,
           role: JSON.parse(storedAuth).role,
+          gender: JSON.parse(storedAuth).gender,
         }
-      : { user: null, role: null };
+      : { user: null, role: null, gender: null };
   });
 
   useEffect(() => {

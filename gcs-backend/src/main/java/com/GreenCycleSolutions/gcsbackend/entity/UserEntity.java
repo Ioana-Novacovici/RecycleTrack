@@ -1,5 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.entity;
 
+import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Gender;
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Role;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -49,6 +50,10 @@ public class UserEntity implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

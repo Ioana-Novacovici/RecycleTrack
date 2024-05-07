@@ -7,6 +7,7 @@ import AgentDashboard from "./components/agent-dashboard";
 import { useContext } from "react";
 import AuthContext from "./api/AuthProvider";
 import UserDashboard from "./components/user-dashboard";
+import Account from "./components/account";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -39,6 +40,10 @@ function App() {
                 <Navigate to="/login" />
               )
             }
+          />
+          <Route
+            path="/account"
+            element={auth.user ? <Account /> : <Navigate to="/login" />}
           />
         </Routes>
       </BrowserRouter>

@@ -53,7 +53,8 @@ function Login() {
         console.log(response);
         const user = response.data.username;
         const role = response.data.role;
-        setAuth({ user, role });
+        const gender = response.data.gender;
+        setAuth({ user, role, gender });
         localStorage.setItem("user", JSON.stringify(auth));
         if (role === "AGENT") {
           navigate("/dashboard-agent");
