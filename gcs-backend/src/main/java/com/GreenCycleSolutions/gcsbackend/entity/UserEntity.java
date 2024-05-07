@@ -52,7 +52,11 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //TODO check if should be changed: maybe an AGENT might have also USER permits
+        if (role.equals(Role.ADMIN)) {
+            return List.of(new SimpleGrantedAuthority(role.name()), new SimpleGrantedAuthority(Role.USER.name()), new SimpleGrantedAuthority(Role.AGENT.name()));
+        } else if(role.equals(Role.AGENT)) {
+            return List.of(new SimpleGrantedAuthority(role.name()), new SimpleGrantedAuthority(Role.USER.name()));
+        }
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
