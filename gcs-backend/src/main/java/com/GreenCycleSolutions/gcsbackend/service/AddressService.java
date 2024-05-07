@@ -10,8 +10,11 @@ import com.GreenCycleSolutions.gcsbackend.repository.AddressRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,8 +37,8 @@ public class AddressService {
         }
     }
 
-    public List<AddressDTO> findAddressBy(String street, Integer number, String block, String entrance, Integer apartmentNumber, String username) {
-        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, entrance, apartmentNumber, username);
+    public List<AddressDTO> findAddressBy(String street, Integer number, String block, Integer apartmentNumber, String username) {
+        List<AddressEntity> addresses = addressRepository.findAllBy(street, number, block, apartmentNumber, username);
         if(!addresses.isEmpty()) {
             return addresses.stream()
                     .map(AddressConverter::convertToAddressDTO)
@@ -45,9 +48,23 @@ public class AddressService {
         }
     }
 
+    public List<AddressDTO> getAddressesFromCurrentDay() {
+        DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
+        List<AddressEntity> addresses = addressRepository.findAddressEntitiesByDayEquals(currentDay);
+        if(!addresses.isEmpty()) {
+            return addresses.stream()
+                    .map(AddressConverter::convertToAddressDTO)
+                    .collect(Collectors.toList());
+        } else {
+            throw new ResourceNotFoundException("No address scheduled for this day");
+        }
+    }
+
     public void addAddress(AddressDTO addressDTO) {
         Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getId());
         if(userEntity.isPresent()) {
+            //generate the unique code for this address
+            addressDTO.setCollectingCode(UUID.randomUUID());
             addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
             throw new ResourceNotFoundException("The user with id " + addressDTO.getId() + " does not exist");

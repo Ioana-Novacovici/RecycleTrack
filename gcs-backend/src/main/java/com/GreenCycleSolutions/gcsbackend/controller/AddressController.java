@@ -35,11 +35,18 @@ public class AddressController {
             @RequestParam(required = false) String street,
             @RequestParam(required = false) Integer number,
             @RequestParam(required = false) String block,
-            @RequestParam(required = false) String entrance,
             @RequestParam(required = false) Integer apartmentNumber,
             @RequestParam(required = false) String username) {
         List<AddressDTO> addressDTOs = addressService
-                .findAddressBy(street, number, block, entrance, apartmentNumber, username);
+                .findAddressBy(street, number, block, apartmentNumber, username);
+        return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get addresses from the current day")
+    @GetMapping("/today")
+    public ResponseEntity<List<AddressDTO>> getAddresses() {
+        List<AddressDTO> addressDTOs = addressService
+                .getAddressesFromCurrentDay();
         return new ResponseEntity<>(addressDTOs, HttpStatus.OK);
     }
 
