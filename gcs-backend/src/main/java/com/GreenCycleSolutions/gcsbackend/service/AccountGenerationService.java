@@ -119,10 +119,10 @@ public class AccountGenerationService {
                 userRepository.save(user);
                 emailService.sendSuccessEmail(userDTO, username, password);
             } else {
-                throw new AccountGenerationException("The data provided is incorrect");
+                throw new AccountGenerationException("There is no record of this person's data, can not activate");
             }
         } else {
-            throw new AccountGenerationException("The data provided is incorrect");
+            throw new AccountGenerationException("There is no record of this person's data, can not activate");
         }
     }
 }

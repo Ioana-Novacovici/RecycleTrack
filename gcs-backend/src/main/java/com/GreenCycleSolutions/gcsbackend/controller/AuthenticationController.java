@@ -18,12 +18,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping(value = "/auth")
 @Tag(name = "Authentication Controller", description = "API for user accounts related operations")
 public class AuthenticationController {
@@ -55,14 +53,15 @@ public class AuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         HttpSession session = request.getSession(true);
         session.setAttribute("user", userDetails);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 
     @Operation(summary = "User log out")
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
+        //TODO check here the getSession(it should have false as param - to use the session with the logged in user)
+        HttpSession session = request.getSession();
+         if (session != null) {
             session.invalidate();
         } else {
             throw new AuthenticationException("Can not log out user if it is not logged in.");

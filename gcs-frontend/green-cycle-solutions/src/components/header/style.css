@@ -1,0 +1,32 @@
+.bg-body-header {
+  background-color: #abb5aa;
+}
+
+.dropdown-menu {
+  --bs-dropdown-link-hover-bg: #abb5aa !important;
+  --bs-dropdown-link-active-bg: #cdd6ac !important;
+}
+
+.navbar {
+  --bs-navbar-brand-color: #354a3f !important;
+  --bs-navbar-brand-hover-color: #354a3f !important;
+  --bs-navbar-active-color: #354a3f !important;
+  --bs-navbar-hover-color: #988445 !important;
+  --bs-navbar-color: #354a3f !important;
+}
+
+.my-colors {
+  background-color: #bed0ab;
+  background-color: #988445;
+  background-color: #c3935d;
+  background-color: #354a3f;
+  background-color: #f6f6f1;
+}
+
+.green-palete {
+  background-color: #faf9f8;
+  background-color: #dedccb;
+  background-color: #cdd6ac;
+  background-color: #abb5aa;
+  background-color: #8fc23c;
+}
