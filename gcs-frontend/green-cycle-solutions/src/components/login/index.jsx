@@ -58,7 +58,7 @@ function Login() {
         if (role === "AGENT") {
           navigate("/dashboard-agent");
         } else {
-          navigate("/");
+          navigate("/dashboard-user");
         }
       } catch (error) {
         if (error.response) {

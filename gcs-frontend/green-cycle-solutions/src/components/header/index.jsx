@@ -53,16 +53,42 @@ function Header() {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Top Clasament
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    My Points
-                  </a>
-                </li>
+                {auth.user ? (
+                  <li className="nav-item me-3">
+                    <Link to="/" className="nav-link">
+                      My Account
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
+                {auth.role === "USER" ? (
+                  <li className="nav-item me-3">
+                    <Link to="/" className="nav-link">
+                      Top Classament
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
+                {auth.role === "USER" ? (
+                  <li className="nav-item me-3">
+                    <Link to="/dashboard-user" className="nav-link">
+                      My Collectings
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
+                {auth.role === "AGENT" ? (
+                  <li className="nav-item me-3">
+                    <Link to="/dashboard-agent" className="nav-link">
+                      Dashboard
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
               </ul>
             </li>
             {auth.user ? (

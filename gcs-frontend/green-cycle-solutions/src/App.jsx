@@ -6,6 +6,7 @@ import Register from "./components/register";
 import AgentDashboard from "./components/agent-dashboard";
 import { useContext } from "react";
 import AuthContext from "./api/AuthProvider";
+import UserDashboard from "./components/user-dashboard";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -24,6 +25,16 @@ function App() {
             element={
               auth.role === "AGENT" ? (
                 <AgentDashboard />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/dashboard-user"
+            element={
+              auth.role === "USER" ? (
+                <UserDashboard />
               ) : (
                 <Navigate to="/login" />
               )
