@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CollectingDTO {
+public class AgentCollectingDTO {
 
     @NotNull(message = "Collecting must have an identification code")
     private UUID collectingCode;

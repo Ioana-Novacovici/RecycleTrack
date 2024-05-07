@@ -25,5 +25,5 @@ public class CollectingEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="address_id", nullable=false)
-    private AddressEntity addressEntity;
+    private AddressEntity address;
 }
