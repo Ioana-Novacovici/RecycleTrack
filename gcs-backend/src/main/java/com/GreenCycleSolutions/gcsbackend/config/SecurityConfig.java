@@ -3,6 +3,7 @@ package com.GreenCycleSolutions.gcsbackend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,8 +27,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/swagger-ui/**", "/gcs-openapi/**", "/auth/**").permitAll()
-                        .requestMatchers("/addresses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/addresses/**").hasAuthority("ADMIN")
                         .requestMatchers("/users/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/collecting/**").hasAuthority("AGENT")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
