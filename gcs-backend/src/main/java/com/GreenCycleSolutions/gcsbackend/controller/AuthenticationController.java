@@ -3,19 +3,13 @@ package com.GreenCycleSolutions.gcsbackend.controller;
 
 import com.GreenCycleSolutions.gcsbackend.dto.AuthRequest;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
-import com.GreenCycleSolutions.gcsbackend.exception.AuthenticationException;
-import com.GreenCycleSolutions.gcsbackend.service.AccountGenerationService;
 import com.GreenCycleSolutions.gcsbackend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

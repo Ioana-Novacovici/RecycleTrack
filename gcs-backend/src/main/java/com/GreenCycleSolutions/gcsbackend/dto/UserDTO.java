@@ -35,5 +35,4 @@ public class UserDTO {
 
     @Schema(example = "USER")
     private Role role;
-
 }
