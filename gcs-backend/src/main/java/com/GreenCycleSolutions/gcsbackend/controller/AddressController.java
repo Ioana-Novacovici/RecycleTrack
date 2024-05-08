@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping(value = "/addresses")
 @Tag(name = "Address Controller", description = "API for address related operations")
 public class AddressController {

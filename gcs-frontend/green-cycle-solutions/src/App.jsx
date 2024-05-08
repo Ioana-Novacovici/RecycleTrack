@@ -11,7 +11,7 @@ import Account from "./components/account";
 
 function App() {
   const { auth } = useContext(AuthContext);
-  console.log(auth.user, auth.role);
+  console.log(auth.usernameContext, auth.role);
 
   return (
     <>
@@ -43,7 +43,9 @@ function App() {
           />
           <Route
             path="/account"
-            element={auth.user ? <Account /> : <Navigate to="/login" />}
+            element={
+              auth.usernameContext ? <Account /> : <Navigate to="/login" />
+            }
           />
         </Routes>
       </BrowserRouter>

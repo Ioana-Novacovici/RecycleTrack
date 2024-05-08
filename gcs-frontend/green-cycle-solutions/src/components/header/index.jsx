@@ -53,9 +53,9 @@ function Header() {
                     Home
                   </Link>
                 </li>
-                {auth.user ? (
-                  <li className="nav-item me-3">
-                    <Link to="/account" className="nav-link">
+                {auth.username ? (
+                  <li>
+                    <Link to="/account" className="dropdown-item">
                       My Account
                     </Link>
                   </li>
@@ -63,8 +63,8 @@ function Header() {
                   <div className="offscreen"></div>
                 )}
                 {auth.role === "USER" ? (
-                  <li className="nav-item me-3">
-                    <Link to="/" className="nav-link">
+                  <li>
+                    <Link to="/" className="dropdown-item">
                       Top Classament
                     </Link>
                   </li>
@@ -72,8 +72,8 @@ function Header() {
                   <div className="offscreen"></div>
                 )}
                 {auth.role === "USER" ? (
-                  <li className="nav-item me-3">
-                    <Link to="/dashboard-user" className="nav-link">
+                  <li>
+                    <Link to="/dashboard-user" className="dropdown-item">
                       My Collectings
                     </Link>
                   </li>
@@ -81,8 +81,8 @@ function Header() {
                   <div className="offscreen"></div>
                 )}
                 {auth.role === "AGENT" ? (
-                  <li className="nav-item me-3">
-                    <Link to="/dashboard-agent" className="nav-link">
+                  <li>
+                    <Link to="/dashboard-agent" className="dropdown-item">
                       Dashboard
                     </Link>
                   </li>
@@ -91,7 +91,7 @@ function Header() {
                 )}
               </ul>
             </li>
-            {auth.user ? (
+            {auth.usernameContext ? (
               <li className="nav-item me-3">
                 <a className="nav-link" onClick={handleLogoutAction}>
                   Logout

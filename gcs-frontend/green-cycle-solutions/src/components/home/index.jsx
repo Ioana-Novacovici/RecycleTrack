@@ -7,9 +7,9 @@ function Home() {
   return (
     <div>
       Here is Home
-      {auth.user ? (
+      {auth.username ? (
         <p>
-          Hello {auth.user} {auth.role}
+          Hello {auth.username} {auth.role}
         </p>
       ) : null}
     </div>
