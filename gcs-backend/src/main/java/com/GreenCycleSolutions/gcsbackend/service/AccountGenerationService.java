@@ -53,7 +53,7 @@ public class AccountGenerationService {
                 throw new AccountGenerationException("Username value is invalid");
             }
         } else {
-            throw new UsernameAlreadyExistsException("This username is already used. Try again!");
+            throw new UsernameAlreadyExistsException("This username is already in use. Try again!");
         }
     }
 
