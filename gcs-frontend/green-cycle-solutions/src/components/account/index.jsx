@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AvatarMale from "../../assets/images/UserAvatarMale.png";
 import AvatarFemale from "../../assets/images/UserAvatarFemale.png";
 import AuthContext from "../../api/AuthProvider";
 import { addressesClient } from "../../api/RequestService.js";
+import "../account/style.css";
 
 function Account() {
   const { auth } = useContext(AuthContext);
+  const [address, setAddress] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +31,7 @@ function Account() {
             withCredentials: true,
           }
         );
-        console.log(response);
+        setAddress(response.data[0]);
       } catch (error) {
         console.log(error);
       }
@@ -38,17 +40,17 @@ function Account() {
   }, []);
 
   return (
-    <div className="container mt-5 ms-5 p-5">
+    <div className="container ms-5 p-5">
       <div className="row justify-content-md-center">
-        <div className="col-4 ms-5 p-5">
+        <div className="col-4 ms-5 p-5 border border-2 rounded-start border-color">
           {auth.gender && auth.gender === "FEMALE" ? (
             <div>
               <img
                 className="rounded-circle"
                 alt=""
                 src={AvatarFemale}
-                width="250"
-                height="250"
+                width="300"
+                height="300"
               ></img>
             </div>
           ) : (
@@ -57,25 +59,50 @@ function Account() {
                 className="rounded-circle"
                 alt=""
                 src={AvatarMale}
-                width="250"
-                height="250"
+                width="300"
+                height="300"
               ></img>
             </div>
           )}
-        </div>
-        <div
-          className="col-6 p-5 rounded-top"
-          style={{ backgroundColor: "#bed0ab" }}
-        >
           <h3
-            className="mt-3 mb-5 fw-normal fst-italic"
+            className="mt-3 fs-7 text text-center"
             style={{ color: "#354a3f" }}
           >
             Welcome back, {auth.usernameContext}!
           </h3>
-          {/* <h4 className="mt-1 mb-3 fw-normal fs-4" style={{ color: "#354a3f" }}>
-            Your {auth.role} account details
-          </h4> */}
+        </div>
+        <div
+          className="col-6 p-5 rounded-end"
+          style={{ backgroundColor: "#bed0ab" }}
+        >
+          <h3 className="mt-1 mb-3 fw-normal " style={{ color: "#354a3f" }}>
+            Account Details
+          </h3>
+          <h3 className="mb-3 fw-normal " style={{ color: "#354a3f" }}>
+            <i className="fa-solid fa-house me-3"></i>
+            {address.street} Street {address.streetNumber}
+            {address.block != null ? (
+              ", Block " + address.block
+            ) : (
+              <div className="offscreen"></div>
+            )}
+            {address.apartmentNumber != null ? (
+              ", Ap no. " + address.apartmentNumber
+            ) : (
+              <div className="offscreen"></div>
+            )}
+          </h3>
+          <h3 className="mt-1 fs-bolder fs-5" style={{ color: "#354a3f" }}>
+            <i className="fa-solid fa-recycle me-3"></i>
+            Weekly collecting pick-up day: {address.day}
+          </h3>
+          <h3 className="mt-1 mb-3 fs-5" style={{ color: "#354a3f" }}>
+            <i className="fa-solid fa-recycle me-3"></i>
+            Code: {address.collectingCode}
+          </h3>
+          <h3 className="mt-3 mb-3 fs-5" style={{ color: "#354a3f" }}>
+            Edit your profile
+          </h3>
           <label
             htmlFor="email"
             className="form-label fw-bold"

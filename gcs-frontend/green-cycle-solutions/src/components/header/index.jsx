@@ -53,7 +53,7 @@ function Header() {
                     Home
                   </Link>
                 </li>
-                {auth.username ? (
+                {auth.usernameContext ? (
                   <li>
                     <Link to="/account" className="dropdown-item">
                       My Account
