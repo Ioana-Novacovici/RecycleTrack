@@ -2,7 +2,9 @@ package com.GreenCycleSolutions.gcsbackend.service;
 
 import com.GreenCycleSolutions.gcsbackend.dto.AuthRequest;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.UsernameRequest;
 import com.GreenCycleSolutions.gcsbackend.exception.AuthenticationException;
+import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +21,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AccountGenerationService accountGenerationService;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserDetailsService userDetailsService) {
+    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserDetailsService userDetailsService, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.accountGenerationService = accountGenerationService;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     public void generateAccount(UserDTO userDTO) {
@@ -51,22 +55,20 @@ public class AuthenticationService {
         }
     }
 
-    public void changeUsername(String newUsername, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+    public void changeUsername(UsernameRequest usernameRequest, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         if(session != null) {
-            UserDetails userDetails = (UserDetails) session.getAttribute("user");
-            accountGenerationService.changeUsername(userDetails.getUsername(), newUsername);
+            accountGenerationService.changeUsername(usernameRequest.getOldUsername(), usernameRequest.getNewUsername());
             session.invalidate();
         } else {
             throw new AuthenticationException("The user is not logged in, hence can not change the username.");
         }
     }
 
-    public void changePassword(String newPassword, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+    public void changePassword(AuthRequest authRequest, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         if(session != null) {
-            UserDetails userDetails = (UserDetails) session.getAttribute("user");
-            accountGenerationService.changePassword(userDetails.getUsername(), newPassword);
+            accountGenerationService.changePassword(authRequest.getUsername(), authRequest.getPassword());
             session.invalidate();
         } else {
             throw new AuthenticationException("The user is not logged in, hence can not change password.");

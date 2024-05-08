@@ -3,6 +3,7 @@ package com.GreenCycleSolutions.gcsbackend.controller;
 
 import com.GreenCycleSolutions.gcsbackend.dto.AuthRequest;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.UsernameRequest;
 import com.GreenCycleSolutions.gcsbackend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,15 +49,15 @@ public class AuthenticationController {
 
     @Operation(summary = "Change username of the logged user")
     @PostMapping("/username")
-    public ResponseEntity<?> changeUsername(@RequestBody String newUsername, HttpServletRequest request) {
-        authenticationService.changeUsername(newUsername, request);
+    public ResponseEntity<?> changeUsername(@RequestBody UsernameRequest usernameRequest, HttpServletRequest request) {
+        authenticationService.changeUsername(usernameRequest, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Change the password of the logged user")
     @PostMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestBody String newPassword, HttpServletRequest request) {
-        authenticationService.changePassword(newPassword, request);
+    public ResponseEntity<?> changePassword(@RequestBody AuthRequest passwordRequest, HttpServletRequest request) {
+        authenticationService.changePassword(passwordRequest, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
