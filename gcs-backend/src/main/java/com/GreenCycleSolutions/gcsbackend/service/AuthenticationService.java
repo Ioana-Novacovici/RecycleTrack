@@ -1,8 +1,9 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
-import com.GreenCycleSolutions.gcsbackend.dto.AuthRequest;
+import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.PasswordRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.UsernameRequest;
+import com.GreenCycleSolutions.gcsbackend.dto.UsernameRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.exception.AuthenticationException;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,32 +22,29 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AccountGenerationService accountGenerationService;
     private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserDetailsService userDetailsService, UserRepository userRepository) {
+    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserDetailsService userDetailsService ) {
         this.authenticationManager = authenticationManager;
         this.accountGenerationService = accountGenerationService;
         this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
     }
 
     public void generateAccount(UserDTO userDTO) {
         accountGenerationService.generateAccount(userDTO);
     }
 
-    public UserDetails login(AuthRequest authRequest, HttpServletRequest request) {
+    public UserDetails login(AuthRequestDTO authRequestDTO, HttpServletRequest request) {
         final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequestDTO.getUsername());
         HttpSession session = request.getSession(true);
         session.setAttribute("user", userDetails);
         return userDetails;
     }
 
     public void logout(HttpServletRequest request) {
-        //TODO check here the getSession(it should have false as param - to use the session with the logged in user)
         HttpSession session = request.getSession();
         if (session != null) {
             session.invalidate();
@@ -55,20 +53,20 @@ public class AuthenticationService {
         }
     }
 
-    public void changeUsername(UsernameRequest usernameRequest, HttpServletRequest request) {
+    public void changeUsername(UsernameRenewDTO usernameRenewDTO, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(session != null) {
-            accountGenerationService.changeUsername(usernameRequest.getOldUsername(), usernameRequest.getNewUsername());
+            accountGenerationService.changeUsername(usernameRenewDTO.getOldUsername(), usernameRenewDTO.getNewUsername());
             session.invalidate();
         } else {
             throw new AuthenticationException("The user is not logged in, hence can not change the username.");
         }
     }
 
-    public void changePassword(AuthRequest authRequest, HttpServletRequest request) {
+    public void changePassword(PasswordRenewDTO passwordRenewDTO, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(session != null) {
-            accountGenerationService.changePassword(authRequest.getUsername(), authRequest.getPassword());
+            accountGenerationService.changePassword(passwordRenewDTO.getUsername(), passwordRenewDTO.getNewPassword());
             session.invalidate();
         } else {
             throw new AuthenticationException("The user is not logged in, hence can not change password.");
