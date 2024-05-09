@@ -39,8 +39,19 @@ function AgentDashboard() {
             withCredentials: true,
           }
         );
-        setAddresses(response.data);
-        console.log(response.data);
+
+        const newArray = [];
+
+        // Iterate through each element in response.data and push it into newArray
+        response.data.forEach((element) => {
+          newArray.push(element);
+        });
+        setAddresses(newArray);
+        console.log(newArray);
+        // console.log(response.data, response.data[1], response);
+        console.log(newArray.map((a) => console.log(a.street)));
+        console.log(newArray[0]);
+        // console.log(daysOfWeek.map((a) => console.log(a)));
       } catch (error) {
         if (error.response) {
           setError(error.response.data.message);
@@ -84,7 +95,10 @@ function AgentDashboard() {
       ) : (
         <div className="row mt-5 ms-5">
           <div className="col-6 ms-5">
-            <AddressCard />
+            {/* {addresses.map((address) => (
+              <AddressCard key={address.id} address={address} />
+            ))} */}
+            <AddressCard address={addresses[0]} />
             <AddressCard />
             <AddressCard />
           </div>
