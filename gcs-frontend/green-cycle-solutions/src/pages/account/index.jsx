@@ -95,7 +95,7 @@ function Account() {
   }, [username, password]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserAddress = async () => {
       try {
         const key = localStorage.getItem("session-key");
         let response = await addressesClient.get(
@@ -121,7 +121,7 @@ function Account() {
         console.log(error);
       }
     };
-    fetchData();
+    fetchUserAddress();
   }, []);
 
   return (

@@ -18,9 +18,7 @@ function Header() {
     <nav className="navbar navbar-expand-lg bg-body-header">
       <div className="container-fluid ">
         <img src={LogoImage} alt="GCS" width="4%" height="4%" />
-        <div className="navbar-brand fs-4 ms-4" href="#">
-          Green Cycle Solutions
-        </div>
+        <div className="navbar-brand fs-4 ms-4">Green Cycle Solutions</div>
         <button
           className="navbar-toggler"
           type="button"
@@ -40,7 +38,6 @@ function Header() {
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
-                href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"

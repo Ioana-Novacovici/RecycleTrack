@@ -56,7 +56,7 @@ public class AddressService {
                     .map(AddressConverter::convertToAddressDTO)
                     .collect(Collectors.toList());
         } else {
-            throw new ResourceNotFoundException("No address scheduled for this day");
+            throw new ResourceNotFoundException("No address scheduled for this day!");
         }
     }
 
