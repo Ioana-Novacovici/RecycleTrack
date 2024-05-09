@@ -154,8 +154,8 @@ function Register() {
 
   return (
     <form
-      className="mx-auto mt-5 w-50 p-5 custom-form mb-5"
-      style={{ background: "#8fc23c", borderRadius: "20px" }}
+      className="mx-auto mt-5 w-50 p-5 custom-form mb-5 rounded"
+      style={{ background: "#bed0ab" }}
       noValidate
       onSubmit={handleRegisterAction}
     >

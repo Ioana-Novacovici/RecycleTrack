@@ -53,19 +53,40 @@ function Header() {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Top Clasament
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    My Points
-                  </a>
-                </li>
+                {auth.usernameContext ? (
+                  <li>
+                    <Link to="/account" className="dropdown-item">
+                      My Account
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
+                {auth.role === "USER" ? (
+                  <div>
+                    <li>
+                      <Link to="/" className="dropdown-item">
+                        Top Classament
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard-user" className="dropdown-item">
+                        My Collectings
+                      </Link>
+                    </li>
+                  </div>
+                ) : auth.role === "AGENT" ? (
+                  <li>
+                    <Link to="/dashboard-agent" className="dropdown-item">
+                      Dashboard
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
               </ul>
             </li>
-            {auth.user ? (
+            {auth.usernameContext ? (
               <li className="nav-item me-3">
                 <a className="nav-link" onClick={handleLogoutAction}>
                   Logout

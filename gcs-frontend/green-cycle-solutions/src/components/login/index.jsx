@@ -51,15 +51,15 @@ function Login() {
           }
         );
         console.log(response);
-        const user = response.data.username;
+        const usernameContext = response.data.username;
+        console.log(usernameContext);
+        const passwordContext = response.data.password;
         const role = response.data.role;
-        setAuth({ user, role });
+        const gender = response.data.gender;
+        setAuth({ usernameContext, passwordContext, role, gender });
         localStorage.setItem("user", JSON.stringify(auth));
-        if (role === "AGENT") {
-          navigate("/dashboard-agent");
-        } else {
-          navigate("/");
-        }
+        localStorage.setItem("session-key", password);
+        navigate("/account");
       } catch (error) {
         if (error.response) {
           setErrorMessage("Bad credentials!");
@@ -99,8 +99,8 @@ function Login() {
 
   return (
     <form
-      className="mx-auto mt-5 w-50 p-5 custom-form needs-validation"
-      style={{ background: "#8fc23c", borderRadius: "20px" }}
+      className="mx-auto mt-5 w-50 p-5 custom-form needs-validation rounded"
+      style={{ background: "#bed0ab" }}
       noValidate
       onSubmit={handleLoginAction}
     >

@@ -1,8 +1,10 @@
 package com.GreenCycleSolutions.gcsbackend.controller;
 
 
-import com.GreenCycleSolutions.gcsbackend.dto.AuthRequest;
+import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.PasswordRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.UsernameRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,8 +36,8 @@ public class AuthenticationController {
 
     @Operation(summary = "User log in")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest, HttpServletRequest request) {
-        var userDetails = authenticationService.login(authRequest, request);
+    public ResponseEntity<?> login(@RequestBody @Valid AuthRequestDTO authRequestDTO, HttpServletRequest request) {
+        var userDetails = authenticationService.login(authRequestDTO, request);
         return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 
@@ -48,15 +50,15 @@ public class AuthenticationController {
 
     @Operation(summary = "Change username of the logged user")
     @PostMapping("/username")
-    public ResponseEntity<?> changeUsername(@RequestBody String newUsername, HttpServletRequest request) {
-        authenticationService.changeUsername(newUsername, request);
+    public ResponseEntity<?> changeUsername(@RequestBody @Valid UsernameRenewDTO usernameRenewDTO, HttpServletRequest request) {
+        authenticationService.changeUsername(usernameRenewDTO, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Change the password of the logged user")
     @PostMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestBody String newPassword, HttpServletRequest request) {
-        authenticationService.changePassword(newPassword, request);
+    public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRenewDTO passwordRenewDTO, HttpServletRequest request) {
+        authenticationService.changePassword(passwordRenewDTO, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

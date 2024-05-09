@@ -21,6 +21,7 @@ public class UserConverter {
                 .lastName(userEntity.getLastName())
                 .email(userEntity.getEmail())
                 .role(userEntity.getRole())
+                .gender(userEntity.getGender())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class UserConverter {
                 .lastName(userDTO.getLastName())
                 .email(userDTO.getEmail())
                 .role(userDTO.getRole())
+                .gender(userDTO.getGender())
                 .build();
     }
 }

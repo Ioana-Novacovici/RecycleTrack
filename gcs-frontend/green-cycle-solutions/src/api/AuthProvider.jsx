@@ -8,10 +8,17 @@ export const AuthProvider = ({ children }) => {
     const storedAuth = localStorage.getItem("user");
     return storedAuth
       ? {
-          user: JSON.parse(storedAuth).user,
+          usernameContext: JSON.parse(storedAuth).usernameContext,
+          passwordContext: JSON.parse(storedAuth).passwordContext,
           role: JSON.parse(storedAuth).role,
+          gender: JSON.parse(storedAuth).gender,
         }
-      : { user: null, role: null };
+      : {
+          usernameContext: null,
+          passwordContext: null,
+          role: null,
+          gender: null,
+        };
   });
 
   useEffect(() => {
