@@ -18,12 +18,10 @@ function Account() {
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    setIsUsernameValid(true);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setIsPasswordValid(true);
   };
 
   const handleUsernameSubmit = async (e) => {
@@ -58,12 +56,18 @@ function Account() {
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+    console.log(password);
+    const req = {
+      username: auth.usernameContext,
+      newPassword: password,
+    };
+    console.log(req);
     try {
       let response = await client.post(
         "/password",
         {
           username: auth.usernameContext,
-          password: password,
+          newPassword: password,
         },
         {
           headers: {
@@ -124,27 +128,19 @@ function Account() {
     <div className="container ms-5 p-5">
       <div className="row justify-content-md-center">
         <div className="col-4 ms-5 p-5 border border-2 rounded-start border-color">
-          {auth.gender && auth.gender === "FEMALE" ? (
-            <div>
-              <img
-                className="rounded-circle"
-                alt=""
-                src={AvatarFemale}
-                width="300"
-                height="300"
-              ></img>
-            </div>
-          ) : (
-            <div>
-              <img
-                className="rounded-circle"
-                alt=""
-                src={AvatarMale}
-                width="300"
-                height="300"
-              ></img>
-            </div>
-          )}
+          <div>
+            <img
+              className="rounded-circle"
+              alt=""
+              src={
+                auth.gender && auth.gender === "FEMALE"
+                  ? AvatarFemale
+                  : AvatarMale
+              }
+              width="300"
+              height="300"
+            ></img>
+          </div>
           <h3
             className="mt-3 fs-7 text text-center"
             style={{ color: "#354a3f" }}
@@ -245,11 +241,7 @@ function Account() {
           >
             Change password
           </label>
-          <form
-            className="input-group mb-3 needs-validation"
-            noValidate
-            onSubmit={handlePasswordSubmit}
-          >
+          <form className="input-group mb-3" onSubmit={handlePasswordSubmit}>
             <input
               type="password"
               id="password"

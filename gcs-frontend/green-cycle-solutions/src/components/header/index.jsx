@@ -63,24 +63,19 @@ function Header() {
                   <div className="offscreen"></div>
                 )}
                 {auth.role === "USER" ? (
-                  <li>
-                    <Link to="/" className="dropdown-item">
-                      Top Classament
-                    </Link>
-                  </li>
-                ) : (
-                  <div className="offscreen"></div>
-                )}
-                {auth.role === "USER" ? (
-                  <li>
-                    <Link to="/dashboard-user" className="dropdown-item">
-                      My Collectings
-                    </Link>
-                  </li>
-                ) : (
-                  <div className="offscreen"></div>
-                )}
-                {auth.role === "AGENT" ? (
+                  <div>
+                    <li>
+                      <Link to="/" className="dropdown-item">
+                        Top Classament
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard-user" className="dropdown-item">
+                        My Collectings
+                      </Link>
+                    </li>
+                  </div>
+                ) : auth.role === "AGENT" ? (
                   <li>
                     <Link to="/dashboard-agent" className="dropdown-item">
                       Dashboard
