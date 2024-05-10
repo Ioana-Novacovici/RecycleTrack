@@ -44,5 +44,5 @@ public class AddressDTO {
     @NotNull(message = "The address must have an owner")
     private DayOfWeek day;
 
-    private UUID collectingCode;
+    private UUID collectionCode;
 }

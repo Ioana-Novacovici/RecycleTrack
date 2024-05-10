@@ -42,7 +42,7 @@ public class AddressEntity {
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
 
-    @Column(unique = true, name = "collecting_code")
-    private UUID collectingCode;
+    @Column(unique = true, name = "collection_code")
+    private UUID collectionCode;
 
 }

@@ -1,35 +1,29 @@
 package com.GreenCycleSolutions.gcsbackend.entity;
 
-import com.GreenCycleSolutions.gcsbackend.entity.enumtype.RecycledType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collecting_details")
-public class CollectingDetailsEntity {
+@Table(name = "collection")
+public class CollectionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    @Enumerated(EnumType.STRING)
-    private RecycledType recycledType;
-
-    @Column
-    private Double kilograms;
-
-    @Column
-    private Integer points;
+    private LocalDate date;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="collecting_id", nullable=false)
-    private CollectingEntity collectingEntity;
+    @JoinColumn(name="address_id", nullable=false)
+    private AddressEntity address;
 }

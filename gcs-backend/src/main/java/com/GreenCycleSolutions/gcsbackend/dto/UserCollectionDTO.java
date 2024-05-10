@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 @Builder
-public class UserCollectingDTO {
+public class UserCollectionDTO {
 
     private LocalDate date;
     private Integer totalPoints;
     private Double totalQuantity;
-    private List<CollectingDetailsDTO> collectingDetailsDTOList;
+    private List<CollectionDetailsDTO> collectionDetailsDTOList;
 
 }
