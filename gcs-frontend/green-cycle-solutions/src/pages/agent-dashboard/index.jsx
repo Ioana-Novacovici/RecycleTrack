@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import AddressCard from "./components";
 import { addressesClient } from "../../api/RequestService.js";
+import metal from "../../assets/images/metal.png";
+import plastic from "../../assets/images/plastic.png";
+import paper from "../../assets/images/paper.png";
+import glass from "../../assets/images/glass.png";
 import AuthContext from "../../api/AuthProvider";
 
 function AgentDashboard() {
@@ -14,10 +18,19 @@ function AgentDashboard() {
     "Friday",
     "Saturday",
   ];
+
+  const images = [
+    { src: metal, alt: "metal-logo" },
+    { src: plastic, alt: "plastic-logo" },
+    { src: paper, alt: "paper-logo" },
+    { src: glass, alt: "glass-logo" },
+  ];
+
   const formattedDate = currentDate.toISOString().split("T")[0];
   const currentDay = daysOfWeek[currentDate.getDay()];
-  const [addresses, setAddresses] = useState({});
+  const [addresses, setAddresses] = useState([]);
   const [error, setError] = useState();
+  const [collectionCodes, setCollectionCodes] = useState([]);
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -39,24 +52,17 @@ function AgentDashboard() {
             withCredentials: true,
           }
         );
-
-        const newArray = [];
-
-        // Iterate through each element in response.data and push it into newArray
-        response.data.forEach((element) => {
-          newArray.push(element);
-        });
-        setAddresses(newArray);
-        console.log(newArray);
-        // console.log(response.data, response.data[1], response);
-        console.log(newArray.map((a) => console.log(a.street)));
-        console.log(newArray[0]);
-        // console.log(daysOfWeek.map((a) => console.log(a)));
+        setAddresses(response.data);
+        const array = [];
+        response.data.map((data) => array.push(data.collectionCode));
+        console.log(array);
+        setCollectionCodes(array);
+        console.log(collectionCodes);
       } catch (error) {
         if (error.response) {
           setError(error.response.data.message);
         } else {
-          console.log(error);
+          setError("Something went wrong! Please try again later.");
         }
       }
     };
@@ -76,7 +82,7 @@ function AgentDashboard() {
       </div>
       {error ? (
         <div className="row m-5 pe-5 ps-3">
-          <div class="alert alert-primary d-flex align-items-center">
+          <div className="alert alert-primary d-flex align-items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -94,16 +100,67 @@ function AgentDashboard() {
         </div>
       ) : (
         <div className="row mt-5 ms-5">
+          <h3
+            className="mb-3 ms-5 fs-3 text fw-normal"
+            style={{ color: "#354a3f" }}
+          >
+            Recyclables collection locations
+          </h3>
           <div className="col-6 ms-5">
-            {/* {addresses.map((address) => (
-              <AddressCard key={address.id} address={address} />
-            ))} */}
-            <AddressCard address={addresses[0]} />
-            <AddressCard />
-            <AddressCard />
+            {addresses.map((address) => (
+              <AddressCard key={address.collectionCode} address={address} />
+            ))}
           </div>
-          <div className="col-4 ms-5">
-            <AddressCard />
+          <div
+            className="col-4 ms-5 rounded"
+            style={{ backgroundColor: "#bed0ab" }}
+          >
+            <h3
+              className="mb-3 mt-3 fs-3 text text-center fw-normal"
+              style={{ color: "#354a3f" }}
+            >
+              Collection details
+            </h3>
+            <div className=" m-3">
+              <label
+                htmlFor="code"
+                className="form-label fw-bold"
+                style={{ color: "#354a3f" }}
+              >
+                Collection Code
+              </label>
+              <select className="form-select" defaultValue={"DEFAULT"}>
+                <option value="DEFAULT" disabled>
+                  Select the collection code
+                </option>
+                {collectionCodes.map((code) => (
+                  <option key={code} value={code}>
+                    {code}
+                  </option>
+                ))}
+              </select>
+              <div className="row">
+                <label
+                  htmlFor="materials"
+                  className="form-label fw-bold mt-3"
+                  style={{ color: "#354a3f" }}
+                >
+                  Recycled Materials
+                </label>
+              </div>
+              {images.map((image, index) => (
+                <div key={index} className="row">
+                  <label className="mt-1">
+                    <img
+                      alt={image.alt}
+                      src={image.src}
+                      width="70"
+                      height="70"
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

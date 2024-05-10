@@ -173,7 +173,7 @@ function Account() {
               </h3>
               <h3 className="mt-1 fs-bolder fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Weekly collecting pick-up day: {address.day}
+                Weekly collection pick-up day: {address.day}
               </h3>
               <h3 className="mt-1 mb-3 fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
