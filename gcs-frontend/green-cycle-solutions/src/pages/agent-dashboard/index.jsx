@@ -35,7 +35,7 @@ function AgentDashboard() {
   const [collectionCodes, setCollectionCodes] = useState([]);
   const { auth } = useContext(AuthContext);
   const [quantities, setQuantities] = useState(
-    new Array(images.length).fill("")
+    new Array(images.length).fill("0.5")
   );
   const [selectedCode, setSelectedCode] = useState("DEFAULT");
   const [succesMessage, setSuccesMessage] = useState();
