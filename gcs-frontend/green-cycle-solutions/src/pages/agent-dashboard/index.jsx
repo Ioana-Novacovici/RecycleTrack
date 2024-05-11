@@ -142,17 +142,15 @@ function AgentDashboard() {
 
   return (
     <div>
-      <div className="row m-5">
-        <h5
-          className="card-header fs-3 text fw-normal ms-3"
-          style={{ color: "#354a3f" }}
-        >
-          <i className="fa-regular fa-calendar-days me-3"></i>
-          Today's date: {currentDay}, {formattedDate}
-        </h5>
-      </div>
       {error ? (
         <div className="row m-5 pe-5 ps-3">
+          <h5
+            className="card-header fs-3 text fw-normal mb-3"
+            style={{ color: "#354a3f" }}
+          >
+            <i className="fa-regular fa-calendar-days me-3"></i>
+            Today's date: {currentDay}, {formattedDate}
+          </h5>
           <div className="alert alert-primary d-flex align-items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -170,14 +168,22 @@ function AgentDashboard() {
           </div>
         </div>
       ) : (
-        <div className="row mt-5 ms-5">
-          <h3
-            className="mb-3 ms-5 fs-3 text fw-normal"
-            style={{ color: "#354a3f" }}
-          >
-            Recyclables collection locations
-          </h3>
+        <div className="row ms-5 mt-5">
           <div className="col-6 ms-5">
+            <h5
+              className="card-header fs-3 text fw-normal mb-3"
+              style={{ color: "#354a3f" }}
+            >
+              <i className="fa-regular fa-calendar-days me-3"></i>
+              Today's date: {currentDay}, {formattedDate}
+            </h5>
+
+            <h3
+              className="mb-3 fs-4 text fw-normal"
+              style={{ color: "#354a3f" }}
+            >
+              Recyclables collection locations
+            </h3>
             {addresses.map((address) => (
               <AddressCard key={address.collectionCode} address={address} />
             ))}
@@ -236,14 +242,13 @@ function AgentDashboard() {
             <div className=" m-3">
               <label
                 htmlFor="code"
-                className="form-label fw-bold mt-3"
+                className="form-label fw-bold mt-1"
                 style={{ color: "#354a3f" }}
               >
                 Collection Code
               </label>
               <select
                 className="form-select"
-                defaultValue={"DEFAULT"}
                 value={selectedCode}
                 onChange={handleSelectChange}
               >
@@ -271,8 +276,8 @@ function AgentDashboard() {
                     <img
                       alt={image.alt}
                       src={image.src}
-                      width="70"
-                      height="70"
+                      width="60"
+                      height="60"
                     />
                   </label>
                   <div className="col-6 ms-3 mt-3">
