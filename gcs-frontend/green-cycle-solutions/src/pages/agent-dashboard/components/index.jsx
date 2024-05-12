@@ -8,7 +8,7 @@ function AddressCard({ address }) {
   return (
     <div className="card mb-3">
       <h5
-        className="card-header fs-6 text fst-italic text-decoration-underline"
+        className="card-header fs-6 text fst-italic"
         style={{ color: "#354a3f", backgroundColor: "#bed0ab" }}
       >
         Collection Code: {address.collectionCode}
@@ -20,7 +20,7 @@ function AddressCard({ address }) {
         <h5 className="card-title fs-5">
           <i
             className="fa-solid fa-house me-3"
-            style={{ color: "#8fc23c" }}
+            style={{ color: "#354a3f" }}
           ></i>
           Pick-up address: {address.street} Street {address.streetNumber}
           {address.block != null ? (

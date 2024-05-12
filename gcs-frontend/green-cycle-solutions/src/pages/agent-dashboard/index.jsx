@@ -179,7 +179,7 @@ function AgentDashboard() {
             </h5>
 
             <h3
-              className="mb-3 fs-4 text fw-normal"
+              className="mb-3 mt-3 fs-4 text fw-normal"
               style={{ color: "#354a3f" }}
             >
               Recyclables collection locations
@@ -272,21 +272,21 @@ function AgentDashboard() {
               </div>
               {images.map((image, index) => (
                 <div key={index} className="row">
-                  <label className="col-2 mt-1">
+                  <label className="col-4 mt-1">
                     <img
                       alt={image.alt}
                       src={image.src}
-                      width="60"
-                      height="60"
+                      width="90"
+                      height="70"
                     />
                   </label>
-                  <div className="col-6 ms-3 mt-3">
+                  <div className="col-4 mt-3">
                     <input
                       type="text"
                       className="form-control"
                       id="quantity"
                       pattern="[0-9]+(\.[0-9]+)?"
-                      placeholder="Enter the quantity"
+                      placeholder="Enter quantity"
                       value={quantities[index]}
                       onChange={(e) =>
                         handleQuantityChange(index, e.target.value)
