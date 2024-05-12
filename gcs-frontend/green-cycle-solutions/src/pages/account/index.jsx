@@ -125,20 +125,18 @@ function Account() {
   }, []);
 
   return (
-    <div className="container ms-5 p-5">
+    <div className="m-5 ">
       <div className="row justify-content-md-center">
         <div className="col-4 ms-5 p-5 border border-2 rounded-start border-color">
-          <div>
+          <div className="row ms-5 me-5">
             <img
               className="rounded-circle"
-              alt=""
+              alt="avatar"
               src={
                 auth.gender && auth.gender === "FEMALE"
                   ? AvatarFemale
                   : AvatarMale
               }
-              width="300"
-              height="300"
             ></img>
           </div>
           <h3
