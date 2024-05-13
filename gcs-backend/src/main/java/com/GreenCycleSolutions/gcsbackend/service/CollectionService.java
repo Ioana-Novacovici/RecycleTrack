@@ -45,7 +45,7 @@ public class CollectionService {
                         .collectionEntity(collection)
                                 .recycledType(entry.getKey())
                                 .kilograms(entry.getValue())
-                                .points(100)
+                                .points(computePoints(entry.getKey(), entry.getValue()))
                         .build());
             }
 
@@ -98,5 +98,14 @@ public class CollectionService {
                 .stream()
                 .mapToDouble(CollectionDetailsEntity::getKilograms)
                 .sum();
+    }
+
+    private Integer computePoints(RecycledType type, Double quantity) {
+        return switch (type) {
+            case GLASS -> (int)(quantity * 5);
+            case METAL -> (int)(quantity * 6);
+            case PAPER -> (int)(quantity * 7);
+            case PLASTIC -> (int)(quantity * 8);
+        };
     }
 }
