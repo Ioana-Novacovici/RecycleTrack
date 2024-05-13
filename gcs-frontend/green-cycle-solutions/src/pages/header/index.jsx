@@ -68,7 +68,7 @@ function Header() {
                     </li>
                     <li>
                       <Link to="/dashboard-user" className="dropdown-item">
-                        My Collectings
+                        My Collections
                       </Link>
                     </li>
                   </div>
