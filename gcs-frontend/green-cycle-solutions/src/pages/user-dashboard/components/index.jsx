@@ -64,30 +64,37 @@ function CollectionCard({ collection }) {
           </button>
         </div>
       </div>
-      {details.map((detail, index) => (
-        <div
-          className="row w-50 mt-1 mb-1 rounded"
-          style={{ color: "#354a3f", background: "#bed0ab " }}
-          key={index}
-        >
-          <div className="col text-center ms-5 mt-1 mb-1 d-flex">
-            <img src={getPictureSource(detail)} width="60" height="60" />
-            <h5 className="fs-5 text fst-italic ms-5 mt-3">
+      <div className="row">
+        {details.map((detail, index) => (
+          <div
+            className="col-4 mt-1 mb-1  ms-5 rounded d-flex"
+            style={{ color: "#354a3f", background: "#bed0ab " }}
+            key={index}
+          >
+            <img
+              className="mt-1 mb-1"
+              src={getPictureSource(detail)}
+              width="60"
+              height="60"
+            />
+            <h5 className="fs-5 text fst-italic ms-3 mt-3">
               {detail.recycledType}
             </h5>
-          </div>
-          <div className="col ">
-            <h5 className="fs-5 text text-center fst-italic mt-3">
-              {detail.kilograms} kilograms
-            </h5>
-          </div>
-          {/* <div className="col ms-5">
-              <h5 className="fs-5 text fst-italic ms-5 ps-3 mt-3">
-                {detail.points} RON
+            <div className="col">
+              <h5 className="fs-5 text text-center fst-italic ms-5 mt-3">
+                {detail.kilograms} kilograms
               </h5>
-            </div> */}
-        </div>
-      ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <hr
+        style={{
+          borderColor: "#354a3f",
+          borderWidth: "2px",
+          borderStyle: "solid",
+        }}
+      />
     </div>
   );
 }
