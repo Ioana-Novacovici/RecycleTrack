@@ -40,7 +40,6 @@ function Account() {
           withCredentials: true,
         }
       );
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("session-key");
       navigate("/login");
@@ -49,19 +48,16 @@ function Account() {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Something went wrong. Please try again!");
-        console.log(error);
       }
     }
   };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    console.log(password);
     const req = {
       username: auth.usernameContext,
       newPassword: password,
     };
-    console.log(req);
     try {
       let response = await client.post(
         "/password",
@@ -76,7 +72,6 @@ function Account() {
           withCredentials: true,
         }
       );
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("session-key");
       navigate("/login");
@@ -85,7 +80,6 @@ function Account() {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Something went wrong. Please try again!");
-        console.log(error);
       }
     }
   };
@@ -117,9 +111,7 @@ function Account() {
           }
         );
         setAddress(response.data[0]);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchUserAddress();
   }, []);

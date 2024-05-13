@@ -50,9 +50,7 @@ function Login() {
             withCredentials: true,
           }
         );
-        console.log(response);
         const usernameContext = response.data.username;
-        console.log(usernameContext);
         const passwordContext = response.data.password;
         const role = response.data.role;
         const gender = response.data.gender;
@@ -65,7 +63,6 @@ function Login() {
           setErrorMessage("Bad credentials!");
         } else {
           setErrorMessage("Something went wrong. Please try again!");
-          console.log(error);
         }
       }
     }

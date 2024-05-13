@@ -10,10 +10,8 @@ function CollectionCard({ collection }) {
   }
 
   const details = collection.collectionDetailsDTOList;
-  console.log(details);
 
   function getPictureSource(detail) {
-    console.log(detail.recycledType);
     if (detail.recycledType === "GLASS") return glassCollection;
     else if (detail.recycledType === "PAPER") return paperCollection;
     else if (detail.recycledType === "METAL") return metalCollection;

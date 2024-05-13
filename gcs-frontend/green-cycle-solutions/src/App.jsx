@@ -11,7 +11,6 @@ import Account from "./pages/account";
 
 function App() {
   const { auth } = useContext(AuthContext);
-  console.log(auth.usernameContext, auth.role);
 
   return (
     <>

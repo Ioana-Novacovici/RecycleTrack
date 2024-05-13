@@ -42,7 +42,6 @@ function AgentDashboard() {
 
   const handleSelectChange = (event) => {
     setSelectedCode(event.target.value);
-    console.log(selectedCode);
   };
 
   useEffect(() => {
@@ -78,9 +77,7 @@ function AgentDashboard() {
         setAddresses(response.data);
         const array = [];
         response.data.map((data) => array.push(data.collectionCode));
-        console.log(array);
         setCollectionCodes(array);
-        console.log(collectionCodes);
       } catch (error) {
         if (error.response) {
           setError(error.response.data.message);
@@ -108,7 +105,6 @@ function AgentDashboard() {
       map[type] = quantities[index];
       return map;
     }, {});
-    console.log(quantitiesMap);
     try {
       const key = localStorage.getItem("session-key");
       let response = await collectionsClient.post(

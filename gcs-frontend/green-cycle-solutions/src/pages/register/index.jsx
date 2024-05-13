@@ -79,14 +79,11 @@ function Register() {
           }
         );
         navigate("/login");
-        console.log(response);
       } catch (error) {
         if (error.response) {
           setErrorMessage(error.response.data.message);
-          console.log(error);
         } else {
           setErrorMessage("Something went wrong. Please try again!");
-          console.log(error);
         }
       }
     }

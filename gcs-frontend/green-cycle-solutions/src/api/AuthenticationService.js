@@ -13,15 +13,11 @@ export const useLogout = () => {
   const logout = async () => {
     try {
       let response = await client.post("/logout");
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("session-key");
       setAuth({});
-      console.log(auth);
       navigate("/login");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return logout;
 };
