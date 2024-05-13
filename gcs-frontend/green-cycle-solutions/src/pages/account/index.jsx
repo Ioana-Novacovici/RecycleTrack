@@ -175,7 +175,7 @@ function Account() {
               </h3>
               <h3 className="mt-1 mb-3 fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Code: {address.collectingCode}
+                Code: {address.collectionCode}
               </h3>
             </div>
           ) : (

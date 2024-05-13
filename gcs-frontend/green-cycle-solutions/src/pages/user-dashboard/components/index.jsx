@@ -67,24 +67,20 @@ function CollectionCard({ collection }) {
       <div className="row">
         {details.map((detail, index) => (
           <div
-            className="col-4 mt-1 mb-1  ms-5 rounded d-flex"
+            className="col-6 mt-1 mb-1 d-flex"
             style={{ color: "#354a3f", background: "#bed0ab " }}
             key={index}
           >
             <img
-              className="mt-1 mb-1"
+              className="mt-1 mb-1 ms-5"
               src={getPictureSource(detail)}
-              width="60"
-              height="60"
+              width="70"
+              height="70"
             />
-            <h5 className="fs-5 text fst-italic ms-3 mt-3">
-              {detail.recycledType}
+            <span className="col-1"></span>
+            <h5 className="fs-5 text fst-italic ms-3 mt-3 text-centered">
+              {detail.recycledType} - {detail.kilograms} kilograms
             </h5>
-            <div className="col">
-              <h5 className="fs-5 text text-center fst-italic ms-5 mt-3">
-                {detail.kilograms} kilograms
-              </h5>
-            </div>
           </div>
         ))}
       </div>

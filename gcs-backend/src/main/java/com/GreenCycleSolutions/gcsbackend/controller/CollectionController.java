@@ -33,7 +33,7 @@ public class CollectionController {
 
     @Operation(summary = "Get all collections of a user")
     @GetMapping()
-    public ResponseEntity<List<UserCollectionDTO>> getCollectionBy(@RequestParam(required = false) String username) {
+    public ResponseEntity<List<UserCollectionDTO>> getCollectionBy(@RequestParam String username) {
         var userCollections = collectionService.getCollections(username);
         return new ResponseEntity<>(userCollections, HttpStatus.OK);
     }
