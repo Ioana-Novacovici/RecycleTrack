@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class CollectionDetailsDTO {
 
-    private Double kilograms;
+    private Double quantity;
     private Integer points;
     private RecycledType recycledType;
 }

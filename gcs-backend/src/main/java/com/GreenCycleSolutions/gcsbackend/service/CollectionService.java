@@ -1,10 +1,10 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
+import com.GreenCycleSolutions.gcsbackend.converter.CollectionConverter;
 import com.GreenCycleSolutions.gcsbackend.dto.AgentCollectionDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.CollectionDetailsDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UserCollectionDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.AddressEntity;
-import com.GreenCycleSolutions.gcsbackend.entity.CollectionDetailsEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.CollectionEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.RecycledType;
 import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
@@ -13,10 +13,11 @@ import com.GreenCycleSolutions.gcsbackend.repository.CollectionDetailsRepository
 import com.GreenCycleSolutions.gcsbackend.repository.CollectionRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.GreenCycleSolutions.gcsbackend.converter.CollectionConverter.*;
 
 @Service
 public class CollectionService {
@@ -36,18 +37,17 @@ public class CollectionService {
                 .findByCollectionCode(collectionDTO.getCollectionCode());
         if (addressEntityOptional.isPresent()) {
             var address = addressEntityOptional.get();
-            CollectionEntity collection = collectionRepository.save(CollectionEntity.builder()
-                    .date(LocalDate.now())
-                    .address(address)
-                    .build());
+            CollectionEntity collection = collectionRepository.save(convertToCollectionEntity(address));
+            Integer totalPoints = 0;
+            Double totalQuantity = 0.0;
             for (Map.Entry<RecycledType, Double> entry : collectionDTO.getQuantities().entrySet()) {
-                collectionDetailsRepository.save(CollectionDetailsEntity.builder()
-                        .collectionEntity(collection)
-                                .recycledType(entry.getKey())
-                                .kilograms(entry.getValue())
-                                .points(computePoints(entry.getKey(), entry.getValue()))
-                        .build());
+                collectionDetailsRepository.save(convertToCollectionDetailsEntity(entry, collection));
+                totalPoints += computePoints(entry.getKey(), entry.getValue());
+                totalQuantity += entry.getValue();
             }
+            collection.setTotalPoints(totalPoints);
+            collection.setTotalQuantity(totalQuantity);
+            collectionRepository.save(collection);
 
         } else {
             throw new ResourceNotFoundException("The collection code provided is not correct");
@@ -56,16 +56,13 @@ public class CollectionService {
 
     public List<UserCollectionDTO> getCollections(String username) {
         Optional<AddressEntity> addressEntityOptional = addressRepository.findByUserUsername(username);
-        if(addressEntityOptional.isPresent()) {
+        if (addressEntityOptional.isPresent()) {
             var addressId = addressEntityOptional.get().getId();
-            return collectionRepository.findByAddressId(addressId)
-                    .stream().map(collectionEntity ->
-                        UserCollectionDTO.builder()
-                                .date(collectionEntity.getDate())
-                                .collectionDetailsDTOList(getCollectionDetailsFor(collectionEntity.getId()))
-                                .totalPoints(getTotalCollectionPointsFor(collectionEntity.getId()))
-                                .totalQuantity(getTotalCollectionQuantityFor(collectionEntity.getId()))
-                                .build()).toList();
+            var collections = collectionRepository.findByAddressId(addressId);
+            if (collections.isEmpty())
+                throw new ResourceNotFoundException("The username: " + username + " does not have any collections");
+            return collections.stream().map(collectionEntity ->
+                    convertToCollectionDTO(collectionEntity, getCollectionDetailsFor(collectionEntity.getId()))).toList();
         } else {
             throw new ResourceNotFoundException("The username: " + username + " does not exist");
         }
@@ -75,37 +72,7 @@ public class CollectionService {
         return collectionDetailsRepository
                 .findByCollectionEntityId(collectionId)
                 .stream()
-                .map(collectionDetailsEntity ->
-                    CollectionDetailsDTO.builder()
-                            .points(collectionDetailsEntity.getPoints())
-                            .recycledType(collectionDetailsEntity.getRecycledType())
-                            .kilograms(collectionDetailsEntity.getKilograms())
-                            .build()
-                ).toList();
-    }
-
-    private Integer getTotalCollectionPointsFor(Integer collectionId) {
-        return collectionDetailsRepository
-                .findByCollectionEntityId(collectionId)
-                .stream()
-                .mapToInt(CollectionDetailsEntity::getPoints)
-                .sum();
-    }
-
-    private Double getTotalCollectionQuantityFor(Integer collectionId) {
-        return collectionDetailsRepository
-                .findByCollectionEntityId(collectionId)
-                .stream()
-                .mapToDouble(CollectionDetailsEntity::getKilograms)
-                .sum();
-    }
-
-    private Integer computePoints(RecycledType type, Double quantity) {
-        return switch (type) {
-            case GLASS -> (int)(quantity * 5);
-            case METAL -> (int)(quantity * 6);
-            case PAPER -> (int)(quantity * 7);
-            case PLASTIC -> (int)(quantity * 8);
-        };
+                .map(CollectionConverter::convertToCollectionDetailsDTO)
+                .toList();
     }
 }

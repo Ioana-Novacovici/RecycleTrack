@@ -24,7 +24,7 @@ public class CollectionDetailsEntity {
     private RecycledType recycledType;
 
     @Column
-    private Double kilograms;
+    private Double quantity;
 
     @Column
     private Integer points;

@@ -13,6 +13,7 @@ public class UserCollectionDTO {
     private LocalDate date;
     private Integer totalPoints;
     private Double totalQuantity;
+    private Boolean isUsed;
     private List<CollectionDetailsDTO> collectionDetailsDTOList;
 
 }

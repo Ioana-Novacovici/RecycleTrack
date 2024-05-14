@@ -77,7 +77,7 @@ function CollectionCard({ collection }) {
             />
             <span className="col-1"></span>
             <h5 className="fs-5 text fst-italic ms-3 mt-3 text-centered">
-              {detail.recycledType} - {detail.kilograms} kilograms
+              {detail.recycledType} - {detail.quantity} kilograms
             </h5>
           </div>
         ))}

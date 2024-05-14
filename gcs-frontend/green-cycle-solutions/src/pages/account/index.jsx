@@ -171,7 +171,7 @@ function Account() {
               </h3>
             </div>
           ) : (
-            <div class="offscreen" />
+            <div className="offscreen" />
           )}
           <h3 className="mt-3 mb-3 fs-5" style={{ color: "#354a3f" }}>
             Edit your profile

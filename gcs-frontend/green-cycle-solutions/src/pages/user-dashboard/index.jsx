@@ -34,7 +34,9 @@ function UserDashboard() {
         setCollections(response.data);
       } catch (error) {
         if (error.response) {
-          setError("Your collection list is empty for now!");
+          setError(
+            "You don't have collections yet. Come back after your collection day and keep track of your progress!"
+          );
         } else {
           setError("Something went wrong! Please try again later.");
         }
