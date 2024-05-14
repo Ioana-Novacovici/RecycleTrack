@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import glassCollection from "../../../assets/images/glassCollection.png";
 import paperCollection from "../../../assets/images/paperCollection.png";
 import metalCollection from "../../../assets/images/metalCollection.png";
 import plasticCollection from "../../../assets/images/plasticCollection.png";
+import AuthContext from "../../../api/AuthProvider";
+import { collectionsClient } from "../../../api/RequestService.js";
 
 function CollectionCard({ collection }) {
   if (!collection) {
@@ -10,6 +12,17 @@ function CollectionCard({ collection }) {
   }
 
   const details = collection.collectionDetailsDTOList;
+  const { auth } = useContext(AuthContext);
+  const [used, setUsed] = useState(() => {
+    return collection.isUsed;
+  });
+  const [buttonText, setButtonText] = useState(() => {
+    if (collection.isUsed === false) {
+      return "Use Points";
+    } else {
+      return "Points Used";
+    }
+  });
 
   function getPictureSource(detail) {
     if (detail.recycledType === "GLASS") return glassCollection;
@@ -17,6 +30,39 @@ function CollectionCard({ collection }) {
     else if (detail.recycledType === "METAL") return metalCollection;
     else if (detail.recycledType === "PLASTIC") return plasticCollection;
   }
+
+  const handleUsePointsAction = async (e) => {
+    e.preventDefault();
+    console.log(collection);
+    try {
+      const key = localStorage.getItem("session-key");
+      await collectionsClient.post(
+        "/use",
+        {
+          date: collection.date,
+          username: auth.usernameContext,
+        },
+        {
+          auth: {
+            username: auth.usernameContext,
+            password: key,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      setUsed(true);
+      setButtonText("Points Used");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {};
 
   return (
     <div>
@@ -57,8 +103,10 @@ function CollectionCard({ collection }) {
               borderRadius: "5px",
               color: "#354a3f",
             }}
+            onClick={handleUsePointsAction}
+            disabled={used}
           >
-            Use Points
+            {buttonText}
           </button>
         </div>
       </div>

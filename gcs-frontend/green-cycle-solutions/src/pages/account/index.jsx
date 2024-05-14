@@ -54,12 +54,8 @@ function Account() {
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    const req = {
-      username: auth.usernameContext,
-      newPassword: password,
-    };
     try {
-      let response = await client.post(
+      await client.post(
         "/password",
         {
           username: auth.usernameContext,

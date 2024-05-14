@@ -31,7 +31,7 @@ function AgentDashboard() {
   const currentDay = daysOfWeek[currentDate.getDay()];
   const [addresses, setAddresses] = useState([]);
   const [error, setError] = useState();
-  const [formError, setFormError] = useState();
+  const [formError, setFormError] = useState("");
   const [collectionCodes, setCollectionCodes] = useState([]);
   const { auth } = useContext(AuthContext);
   const [quantities, setQuantities] = useState(
@@ -107,7 +107,7 @@ function AgentDashboard() {
     }, {});
     try {
       const key = localStorage.getItem("session-key");
-      let response = await collectionsClient.post(
+      await collectionsClient.post(
         "",
         {
           collectionCode: selectedCode,
@@ -129,7 +129,13 @@ function AgentDashboard() {
       setSuccesMessage("Collection added succesfully!");
     } catch (error) {
       if (error.response) {
-        setFormError(error.response.data.message);
+        if (error.response.status === 400) {
+          setFormError("You already introduced a collection with this code!");
+        } else if (error.response.status === 500) {
+          setFormError("Invalid quantity value! Double value required!");
+        } else {
+          setFormError("Something went wrong! Please try again later.");
+        }
       } else {
         setFormError("Something went wrong! Please try again later.");
       }

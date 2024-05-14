@@ -13,7 +13,8 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collection")
+@Table(name = "collection", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueCollection", columnNames = {"date", "address_id"})})
 public class CollectionEntity {
 
     @Id

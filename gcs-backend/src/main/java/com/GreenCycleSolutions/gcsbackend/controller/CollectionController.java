@@ -26,7 +26,7 @@ public class CollectionController {
 
     @Operation(summary = "Add a collection")
     @PostMapping
-    public ResponseEntity<?> addCollection(@Valid @RequestBody AgentCollectionDTO collectionDTO) {
+    public ResponseEntity<?> addCollection(@RequestBody @Valid AgentCollectionDTO collectionDTO) {
         collectionService.addCollection(collectionDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -36,5 +36,12 @@ public class CollectionController {
     public ResponseEntity<List<UserCollectionDTO>> getCollectionBy(@RequestParam String username) {
         var userCollections = collectionService.getCollections(username);
         return new ResponseEntity<>(userCollections, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Use Points of a Collection")
+    @PostMapping("/use")
+    public ResponseEntity<?> useCollectionPoints(@RequestBody @Valid UserCollectionDTO collectionDTO) {
+        collectionService.useCollectionPoints(collectionDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

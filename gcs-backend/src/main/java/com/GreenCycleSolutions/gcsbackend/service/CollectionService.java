@@ -54,6 +54,24 @@ public class CollectionService {
         }
     }
 
+    public void useCollectionPoints(UserCollectionDTO collectionDTO) {
+        Optional<AddressEntity> addressEntityOptional = addressRepository.findByUserUsername(collectionDTO.getUsername());
+        if (addressEntityOptional.isPresent()) {
+            var addressId = addressEntityOptional.get().getId();
+            Optional<CollectionEntity> collectionEntityOptional = collectionRepository
+                    .findCollectionEntityByDateAndAddressId(collectionDTO.getDate(), addressId);
+            if(collectionEntityOptional.isPresent()) {
+                var collection = collectionEntityOptional.get();
+                collection.setIsUsed(true);
+                collectionRepository.save(collection);
+            } else {
+                throw new ResourceNotFoundException("The collection date provided is not correct");
+            }
+        } else {
+            throw new ResourceNotFoundException("The username: " + collectionDTO.getUsername() + " does not exist");
+        }
+    }
+
     public List<UserCollectionDTO> getCollections(String username) {
         Optional<AddressEntity> addressEntityOptional = addressRepository.findByUserUsername(username);
         if (addressEntityOptional.isPresent()) {

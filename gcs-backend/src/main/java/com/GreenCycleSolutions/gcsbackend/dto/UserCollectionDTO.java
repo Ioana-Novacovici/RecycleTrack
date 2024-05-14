@@ -14,6 +14,7 @@ public class UserCollectionDTO {
     private Integer totalPoints;
     private Double totalQuantity;
     private Boolean isUsed;
+    private String username;
     private List<CollectionDetailsDTO> collectionDetailsDTOList;
 
 }
