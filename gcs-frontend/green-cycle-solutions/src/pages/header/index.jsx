@@ -50,25 +50,16 @@ function Header() {
                     Home
                   </Link>
                 </li>
-                {auth.usernameContext ? (
-                  <li>
-                    <Link to="/account" className="dropdown-item">
-                      My Account
-                    </Link>
-                  </li>
-                ) : (
-                  <div className="offscreen"></div>
-                )}
                 {auth.role === "USER" ? (
                   <div>
                     <li>
-                      <Link to="/" className="dropdown-item">
-                        Top Classament
+                      <Link to="/dashboard-user" className="dropdown-item">
+                        My Collections
                       </Link>
                     </li>
                     <li>
-                      <Link to="/dashboard-user" className="dropdown-item">
-                        My Collections
+                      <Link to="/" className="dropdown-item">
+                        Top Classament
                       </Link>
                     </li>
                   </div>
@@ -76,6 +67,15 @@ function Header() {
                   <li>
                     <Link to="/dashboard-agent" className="dropdown-item">
                       Dashboard
+                    </Link>
+                  </li>
+                ) : (
+                  <div className="offscreen"></div>
+                )}
+                {auth.usernameContext ? (
+                  <li>
+                    <Link to="/account" className="dropdown-item">
+                      My Account
                     </Link>
                   </li>
                 ) : (

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import Barcode from "react-barcode";
 import glassCollection from "../../../assets/images/glassCollection.png";
 import paperCollection from "../../../assets/images/paperCollection.png";
 import metalCollection from "../../../assets/images/metalCollection.png";
@@ -61,8 +62,6 @@ function CollectionCard({ collection }) {
       console.log(error);
     }
   };
-
-  const handlePasswordSubmit = async (e) => {};
 
   return (
     <div>
@@ -141,35 +140,43 @@ function CollectionCard({ collection }) {
       />
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="barCodeModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="barCodeModal"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="barCodeModal">
-                <i class="fa-solid fa-recycle me-3"></i>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="barCodeModal">
+                <i className="fa-solid fa-recycle me-3"></i>
                 Congrats for your recycling progress!
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <h6>
                 Make sure you save this barcode. Enjoy your shopping discount!
               </h6>
+              <Barcode
+                className="ms-3 mt-3"
+                value={collection.toString()}
+                width={2}
+                height={100}
+                displayValue={false}
+                background="#bed0ab"
+              />
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close

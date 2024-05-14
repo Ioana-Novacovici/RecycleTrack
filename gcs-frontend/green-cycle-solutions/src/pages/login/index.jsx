@@ -57,7 +57,13 @@ function Login() {
         setAuth({ usernameContext, passwordContext, role, gender });
         localStorage.setItem("user", JSON.stringify(auth));
         localStorage.setItem("session-key", password);
-        navigate("/account");
+        if (role === "AGENT") {
+          navigate("/dashboard-agent");
+        } else if (role === "USER") {
+          navigate("/dashboard-user");
+        } else {
+          navigate("/account");
+        }
       } catch (error) {
         if (error.response) {
           setErrorMessage("Bad credentials!");
