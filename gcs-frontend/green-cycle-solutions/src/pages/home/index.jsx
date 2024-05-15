@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import AuthContext from "../../api/AuthProvider";
 import HomeImage from "../../assets/images/HomePageBg.jpg";
-import "../home/style.css";
 
 function Home() {
   const { auth } = useContext(AuthContext);
@@ -9,7 +8,7 @@ function Home() {
   return (
     <div>
       <div
-        className="card home-card mt-1"
+        className="card m-3"
         style={{ color: "#354a3f", backgroundColor: "#dedccb" }}
       >
         <img src={HomeImage} className="card-img" alt="GCS" />
