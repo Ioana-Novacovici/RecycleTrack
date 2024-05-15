@@ -24,6 +24,8 @@ function CollectionCard({ collection }) {
       return "Points Used";
     }
   });
+  const barCodeInformation =
+    "Discount amount: " + collection.totalPoints + " RON";
 
   function getPictureSource(detail) {
     if (detail.recycledType === "GLASS") return glassCollection;
@@ -165,9 +167,9 @@ function CollectionCard({ collection }) {
                 Make sure you save this barcode. Enjoy your shopping discount!
               </h6>
               <Barcode
-                className="ms-3 mt-3"
-                value={collection.toString()}
-                width={2}
+                className="ms-1 mt-3"
+                value={barCodeInformation}
+                width={1.5}
                 height={100}
                 displayValue={false}
                 background="#bed0ab"
