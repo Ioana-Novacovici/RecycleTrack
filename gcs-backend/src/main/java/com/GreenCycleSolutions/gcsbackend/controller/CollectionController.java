@@ -48,7 +48,7 @@ public class CollectionController {
     @Operation(summary = "Get weekly collections")
     @GetMapping("/weekly")
     public ResponseEntity<List<UserCollectionDTO>> getWeeklyCollections() {
-        var collections = collectionService.getWeeklyCollections();
+        var collections = collectionService.getWeeklyTopCollections();
         return new ResponseEntity<>(collections, HttpStatus.OK);
     }
 }

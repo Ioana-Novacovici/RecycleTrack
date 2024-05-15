@@ -89,12 +89,15 @@ public class CollectionService {
         }
     }
 
-    public List<UserCollectionDTO> getWeeklyCollections() {
+    public List<UserCollectionDTO> getWeeklyTopCollections() {
         LocalDate today = LocalDate.now();
         LocalDate firstDayOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate lastDayOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
         List<CollectionEntity> collectionEntities = collectionRepository
                 .findCollectionEntityByDateBetweenOrderByTotalQuantityDesc(firstDayOfWeek, lastDayOfWeek);
+        if(collectionEntities.isEmpty()) {
+            throw new ResourceNotFoundException("No collections this week.");
+        }
         return collectionEntities.stream().map(
                 (collectionEntity) -> {
                     var id = collectionEntity.getAddress().getId();
@@ -106,7 +109,7 @@ public class CollectionService {
                         throw new ResourceNotFoundException("Address not found");
                     }
                 }
-        ).toList();
+        ).limit(3).toList();
     }
 
     private List<CollectionDetailsDTO> getCollectionDetailsFor(Integer collectionId) {

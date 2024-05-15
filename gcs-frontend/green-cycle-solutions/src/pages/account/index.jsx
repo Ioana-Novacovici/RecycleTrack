@@ -145,14 +145,14 @@ function Account() {
             <div>
               <h3 className="mb-3 fw-normal " style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-house me-3"></i>
-                {address.street} Street {address.streetNumber}
-                {address.block != null ? (
+                {address.street} Street, Nr. {address.streetNumber}
+                {address.block ? (
                   ", Block " + address.block
                 ) : (
                   <div className="offscreen"></div>
                 )}
-                {address.apartmentNumber != null ? (
-                  ", Ap no. " + address.apartmentNumber
+                {address.apartmentNumber ? (
+                  ", Ap nr. " + address.apartmentNumber
                 ) : (
                   <div className="offscreen"></div>
                 )}

@@ -58,8 +58,8 @@ function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/" className="dropdown-item">
-                        Top Classament
+                      <Link to="/leaderboard" className="dropdown-item">
+                        Leaderboard
                       </Link>
                     </li>
                   </div>
