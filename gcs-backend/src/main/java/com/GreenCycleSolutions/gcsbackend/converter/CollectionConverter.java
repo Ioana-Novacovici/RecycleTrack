@@ -1,6 +1,5 @@
 package com.GreenCycleSolutions.gcsbackend.converter;
 
-import com.GreenCycleSolutions.gcsbackend.dto.AgentCollectionDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.CollectionDetailsDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UserCollectionDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.AddressEntity;
@@ -38,6 +37,15 @@ public class CollectionConverter {
                 .totalPoints(collection.getTotalPoints())
                 .totalQuantity(collection.getTotalQuantity())
                 .isUsed(collection.getIsUsed())
+                .build();
+    }
+
+    public static UserCollectionDTO convertToCollectionDTO(CollectionEntity collection, String username) {
+        return UserCollectionDTO.builder()
+                .date(collection.getDate())
+                .totalPoints(collection.getTotalPoints())
+                .totalQuantity(collection.getTotalQuantity())
+                .username(username)
                 .build();
     }
 
