@@ -50,22 +50,25 @@ function Login() {
             withCredentials: true,
           }
         );
-        console.log(response);
         const usernameContext = response.data.username;
-        console.log(usernameContext);
         const passwordContext = response.data.password;
         const role = response.data.role;
         const gender = response.data.gender;
         setAuth({ usernameContext, passwordContext, role, gender });
         localStorage.setItem("user", JSON.stringify(auth));
         localStorage.setItem("session-key", password);
-        navigate("/account");
+        if (role === "AGENT") {
+          navigate("/dashboard-agent");
+        } else if (role === "USER") {
+          navigate("/dashboard-user");
+        } else {
+          navigate("/account");
+        }
       } catch (error) {
         if (error.response) {
           setErrorMessage("Bad credentials!");
         } else {
           setErrorMessage("Something went wrong. Please try again!");
-          console.log(error);
         }
       }
     }

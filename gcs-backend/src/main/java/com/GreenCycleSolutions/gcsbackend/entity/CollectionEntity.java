@@ -13,8 +13,9 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collecting")
-public class CollectingEntity {
+@Table(name = "collection", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueCollection", columnNames = {"date", "address_id"})})
+public class CollectionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,16 @@ public class CollectingEntity {
     @Column
     private LocalDate date;
 
+    @Column(name = "total_points")
+    private Integer totalPoints;
+
+    @Column(name = "total_quantity")
+    private Double totalQuantity;
+
+    @Column(name = "is_used")
+    private Boolean isUsed;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="address_id", nullable=false)
+    @JoinColumn(name = "address_id", nullable = false)
     private AddressEntity address;
 }

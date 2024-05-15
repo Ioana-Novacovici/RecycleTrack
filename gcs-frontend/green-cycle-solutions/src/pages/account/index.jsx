@@ -40,7 +40,6 @@ function Account() {
           withCredentials: true,
         }
       );
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("session-key");
       navigate("/login");
@@ -49,21 +48,14 @@ function Account() {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Something went wrong. Please try again!");
-        console.log(error);
       }
     }
   };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    console.log(password);
-    const req = {
-      username: auth.usernameContext,
-      newPassword: password,
-    };
-    console.log(req);
     try {
-      let response = await client.post(
+      await client.post(
         "/password",
         {
           username: auth.usernameContext,
@@ -76,7 +68,6 @@ function Account() {
           withCredentials: true,
         }
       );
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("session-key");
       navigate("/login");
@@ -85,7 +76,6 @@ function Account() {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Something went wrong. Please try again!");
-        console.log(error);
       }
     }
   };
@@ -95,7 +85,7 @@ function Account() {
   }, [username, password]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserAddress = async () => {
       try {
         const key = localStorage.getItem("session-key");
         let response = await addressesClient.get(
@@ -117,28 +107,24 @@ function Account() {
           }
         );
         setAddress(response.data[0]);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
-    fetchData();
+    fetchUserAddress();
   }, []);
 
   return (
-    <div className="container ms-5 p-5">
+    <div className="m-5 ">
       <div className="row justify-content-md-center">
         <div className="col-4 ms-5 p-5 border border-2 rounded-start border-color">
-          <div>
+          <div className="row ms-5 me-5">
             <img
               className="rounded-circle"
-              alt=""
+              alt="avatar"
               src={
                 auth.gender && auth.gender === "FEMALE"
                   ? AvatarFemale
                   : AvatarMale
               }
-              width="300"
-              height="300"
             ></img>
           </div>
           <h3
@@ -173,15 +159,15 @@ function Account() {
               </h3>
               <h3 className="mt-1 fs-bolder fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Weekly collecting pick-up day: {address.day}
+                Weekly collection pick-up day: {address.day}
               </h3>
               <h3 className="mt-1 mb-3 fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Code: {address.collectingCode}
+                Code: {address.collectionCode}
               </h3>
             </div>
           ) : (
-            <div class="offscreen" />
+            <div className="offscreen" />
           )}
           <h3 className="mt-3 mb-3 fs-5" style={{ color: "#354a3f" }}>
             Edit your profile

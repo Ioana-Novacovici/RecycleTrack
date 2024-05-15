@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CollectingDetailsDTO {
+public class CollectionDetailsDTO {
 
-    private Double kilograms;
+    private Double quantity;
     private Integer points;
     private RecycledType recycledType;
 }

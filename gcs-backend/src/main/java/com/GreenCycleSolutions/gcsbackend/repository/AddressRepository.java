@@ -25,7 +25,7 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Integer>
 
     List<AddressEntity> findAddressEntitiesByDayEquals(DayOfWeek day);
 
-    Optional<AddressEntity> findByCollectingCode(UUID collectingCode);
+    Optional<AddressEntity> findByCollectionCode(UUID collectionCode);
 
     Optional<AddressEntity> findByUserUsername(String username);
 }

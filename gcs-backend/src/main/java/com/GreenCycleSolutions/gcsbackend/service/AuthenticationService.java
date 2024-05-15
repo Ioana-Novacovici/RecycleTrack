@@ -5,7 +5,6 @@ import com.GreenCycleSolutions.gcsbackend.dto.PasswordRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
 import com.GreenCycleSolutions.gcsbackend.dto.UsernameRenewDTO;
 import com.GreenCycleSolutions.gcsbackend.exception.AuthenticationException;
-import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;

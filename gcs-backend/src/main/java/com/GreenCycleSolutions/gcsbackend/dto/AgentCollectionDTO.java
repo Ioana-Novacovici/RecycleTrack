@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class AgentCollectingDTO {
+public class AgentCollectionDTO {
 
-    @NotNull(message = "Collecting must have an identification code")
-    private UUID collectingCode;
+    @NotNull(message = "Collection must have an identification code")
+    private UUID collectionCode;
 
-    @NotNull(message = "A collecting must contain quantities of material collected")
+    @NotNull(message = "A collection must contain quantities of material collected")
     private Map<RecycledType, Double> quantities;
 }

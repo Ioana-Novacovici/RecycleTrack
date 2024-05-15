@@ -1,17 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/header";
-import Home from "./components/home";
-import Login from "./components/login";
-import Register from "./components/register";
-import AgentDashboard from "./components/agent-dashboard";
+import Header from "./pages/header";
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import AgentDashboard from "./pages/agent-dashboard";
 import { useContext } from "react";
 import AuthContext from "./api/AuthProvider";
-import UserDashboard from "./components/user-dashboard";
-import Account from "./components/account";
+import UserDashboard from "./pages/user-dashboard";
+import Account from "./pages/account";
 
 function App() {
   const { auth } = useContext(AuthContext);
-  console.log(auth.usernameContext, auth.role);
 
   return (
     <>

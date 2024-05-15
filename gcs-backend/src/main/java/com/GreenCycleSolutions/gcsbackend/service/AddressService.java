@@ -56,7 +56,7 @@ public class AddressService {
                     .map(AddressConverter::convertToAddressDTO)
                     .collect(Collectors.toList());
         } else {
-            throw new ResourceNotFoundException("No address scheduled for this day");
+            throw new ResourceNotFoundException("No address scheduled for this day!");
         }
     }
 
@@ -64,7 +64,7 @@ public class AddressService {
         Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getId());
         if(userEntity.isPresent()) {
             //generate the unique code for this address
-            addressDTO.setCollectingCode(UUID.randomUUID());
+            addressDTO.setCollectionCode(UUID.randomUUID());
             addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
         } else {
             throw new ResourceNotFoundException("The user with id " + addressDTO.getId() + " does not exist");

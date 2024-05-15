@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collecting_details")
-public class CollectingDetailsEntity {
+@Table(name = "collection_details")
+public class CollectionDetailsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,12 @@ public class CollectingDetailsEntity {
     private RecycledType recycledType;
 
     @Column
-    private Double kilograms;
+    private Double quantity;
 
     @Column
     private Integer points;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="collecting_id", nullable=false)
-    private CollectingEntity collectingEntity;
+    @JoinColumn(name="collection_id", nullable=false)
+    private CollectionEntity collectionEntity;
 }

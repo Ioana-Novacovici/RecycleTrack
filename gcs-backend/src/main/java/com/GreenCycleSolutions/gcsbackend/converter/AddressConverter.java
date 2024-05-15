@@ -12,7 +12,7 @@ public class AddressConverter {
                 .streetNumber(addressDTO.getStreetNumber())
                 .block(addressDTO.getBlock())
                 .apartmentNumber(addressDTO.getApartmentNumber())
-                .collectingCode(addressDTO.getCollectingCode())
+                .collectionCode(addressDTO.getCollectionCode())
                 .day(addressDTO.getDay())
                 .user(userEntity)
                 .build();
@@ -24,7 +24,7 @@ public class AddressConverter {
                 .streetNumber(addressEntity.getStreetNumber())
                 .block(addressEntity.getBlock())
                 .apartmentNumber(addressEntity.getApartmentNumber())
-                .collectingCode(addressEntity.getCollectingCode())
+                .collectionCode(addressEntity.getCollectionCode())
                 .id(addressEntity.getUser().getId())
                 .day(addressEntity.getDay())
                 .build();
