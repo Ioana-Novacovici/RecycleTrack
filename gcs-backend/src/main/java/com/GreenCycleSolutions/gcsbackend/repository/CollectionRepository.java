@@ -15,6 +15,5 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, In
 
     Optional<CollectionEntity> findCollectionEntityByDateAndAddressId(LocalDate date, Integer address_id);
 
-//    //TODO use this for monthly classament
-//    List<CollectingEntity> findByDate_Month(short dateMonth);
+    List<CollectionEntity> findCollectionEntityByDateBetweenOrderByTotalQuantityDesc(LocalDate start, LocalDate end);
 }

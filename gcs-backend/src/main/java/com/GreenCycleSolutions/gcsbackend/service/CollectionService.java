@@ -13,6 +13,9 @@ import com.GreenCycleSolutions.gcsbackend.repository.CollectionDetailsRepository
 import com.GreenCycleSolutions.gcsbackend.repository.CollectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,6 +87,29 @@ public class CollectionService {
         } else {
             throw new ResourceNotFoundException("The username: " + username + " does not exist");
         }
+    }
+
+    public List<UserCollectionDTO> getWeeklyTopCollections() {
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate lastDayOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        List<CollectionEntity> collectionEntities = collectionRepository
+                .findCollectionEntityByDateBetweenOrderByTotalQuantityDesc(firstDayOfWeek, lastDayOfWeek);
+        if(collectionEntities.isEmpty()) {
+            throw new ResourceNotFoundException("No collections this week.");
+        }
+        return collectionEntities.stream().map(
+                (collectionEntity) -> {
+                    var id = collectionEntity.getAddress().getId();
+                    var address = addressRepository.findById(id);
+                    if(address.isPresent()){
+                        var username = address.get().getUser().getUsername();
+                        return convertToCollectionDTO(collectionEntity, username);
+                    } else {
+                        throw new ResourceNotFoundException("Address not found");
+                    }
+                }
+        ).limit(3).toList();
     }
 
     private List<CollectionDetailsDTO> getCollectionDetailsFor(Integer collectionId) {

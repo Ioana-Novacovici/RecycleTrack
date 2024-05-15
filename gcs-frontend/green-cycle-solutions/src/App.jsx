@@ -8,6 +8,7 @@ import { useContext } from "react";
 import AuthContext from "./api/AuthProvider";
 import UserDashboard from "./pages/user-dashboard";
 import Account from "./pages/account";
+import Leaderboard from "./pages/leaderboard";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -38,6 +39,12 @@ function App() {
               ) : (
                 <Navigate to="/login" />
               )
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              auth.role === "USER" ? <Leaderboard /> : <Navigate to="/login" />
             }
           />
           <Route

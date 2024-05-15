@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/gcs-openapi/**", "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/addresses/**").hasAuthority("ADMIN")
                         .requestMatchers("/users/**").hasAuthority("ADMIN")
-                        .requestMatchers("/collections/use").hasAuthority("USER")
+                        .requestMatchers("/collections/use", "collections/weekly").hasAuthority("USER")
                         .requestMatchers(HttpMethod.POST,"/collections/**").hasAuthority("AGENT")
                         .anyRequest().authenticated()
                 )

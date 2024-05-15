@@ -38,7 +38,7 @@ public class ExceptionAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
     }
 
-    @ExceptionHandler()
+    @ExceptionHandler
     public ResponseEntity<Object> handleException(AuthenticationServiceException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
     }

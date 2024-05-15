@@ -44,4 +44,11 @@ public class CollectionController {
         collectionService.useCollectionPoints(collectionDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Operation(summary = "Get weekly collections")
+    @GetMapping("/weekly")
+    public ResponseEntity<List<UserCollectionDTO>> getWeeklyCollections() {
+        var collections = collectionService.getWeeklyTopCollections();
+        return new ResponseEntity<>(collections, HttpStatus.OK);
+    }
 }
