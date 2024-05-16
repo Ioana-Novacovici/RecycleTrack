@@ -46,8 +46,11 @@ function AgentDashboard() {
 
   useEffect(() => {
     setFormError("");
-    setSuccesMessage("");
   }, [quantities, selectedCode]);
+
+  useEffect(() => {
+    setSuccesMessage("");
+  }, [selectedCode]);
 
   const handleQuantityChange = (index, value) => {
     const newQuantities = [...quantities];
@@ -129,8 +132,8 @@ function AgentDashboard() {
           withCredentials: true,
         }
       );
-      setSuccesMessage("Collection added succesfully!");
       setQuantities(new Array(quantities.length).fill(""));
+      setSuccesMessage("Collection added succesfully!");
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
@@ -295,7 +298,6 @@ function AgentDashboard() {
                       type="text"
                       className="form-control"
                       id="quantity"
-                      pattern="[0-9]+(\.[0-9]+)?"
                       placeholder="Enter quantity"
                       value={quantities[index]}
                       onChange={(e) =>
