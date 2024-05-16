@@ -49,6 +49,7 @@ public class CollectionService {
                 totalQuantity += entry.getValue();
             }
             collection.setTotalPoints(totalPoints);
+            
             collection.setTotalQuantity(totalQuantity);
             collectionRepository.save(collection);
 

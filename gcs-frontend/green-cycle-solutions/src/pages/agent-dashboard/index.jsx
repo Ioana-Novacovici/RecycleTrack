@@ -91,12 +91,15 @@ function AgentDashboard() {
 
   const handleAddCollection = async () => {
     const types = ["METAL", "PLASTIC", "PAPER", "GLASS"];
-    quantities.forEach((quantity) => {
-      if (quantity.trim() === "") {
+    console.log(quantities);
+    for (let quantity of quantities) {
+      if (quantity === "") {
+        console.log("something in if");
         setFormError("Fill in all quantities!");
         return;
       }
-    });
+    }
+    console.log("after");
     if (selectedCode === "DEFAULT") {
       setFormError("Select a collection code!");
       return;
@@ -127,6 +130,7 @@ function AgentDashboard() {
         }
       );
       setSuccesMessage("Collection added succesfully!");
+      setQuantities(new Array(quantities.length).fill(""));
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
@@ -172,23 +176,27 @@ function AgentDashboard() {
       ) : (
         <div className="row ms-5 mt-5">
           <div className="col-6 ms-5">
-            <h5
-              className="card-header fs-3 text fw-normal mb-3"
-              style={{ color: "#354a3f" }}
-            >
-              <i className="fa-regular fa-calendar-days me-3"></i>
-              Today's date: {currentDay}, {formattedDate}
-            </h5>
+            <div>
+              <h5
+                className="card-header fs-3 text fw-normal mb-3"
+                style={{ color: "#354a3f" }}
+              >
+                <i className="fa-regular fa-calendar-days me-3"></i>
+                Today's date: {currentDay}, {formattedDate}
+              </h5>
 
-            <h3
-              className="mb-3 mt-3 fs-4 text fw-normal"
-              style={{ color: "#354a3f" }}
-            >
-              Recyclables collection locations
-            </h3>
-            {addresses.map((address) => (
-              <AddressCard key={address.collectionCode} address={address} />
-            ))}
+              <h3
+                className="mb-3 mt-3 fs-4 text fw-normal"
+                style={{ color: "#354a3f" }}
+              >
+                Recyclables collection locations
+              </h3>
+            </div>
+            <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+              {addresses.map((address) => (
+                <AddressCard key={address.collectionCode} address={address} />
+              ))}
+            </div>
           </div>
           <div
             className="col-4 ms-5 mb-5 rounded"
