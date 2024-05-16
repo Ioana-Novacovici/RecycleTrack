@@ -23,12 +23,12 @@ function AddressCard({ address }) {
             style={{ color: "#354a3f" }}
           ></i>
           Pick-up address: {address.street} Street {address.streetNumber}
-          {address.block != null ? (
+          {address.block ? (
             ", Block " + address.block
           ) : (
             <div className="offscreen"></div>
           )}
-          {address.apartmentNumber != null ? (
+          {address.apartmentNumber ? (
             ", Ap No. " + address.apartmentNumber
           ) : (
             <div className="offscreen"></div>

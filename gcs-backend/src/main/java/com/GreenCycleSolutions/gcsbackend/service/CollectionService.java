@@ -13,6 +13,8 @@ import com.GreenCycleSolutions.gcsbackend.repository.CollectionDetailsRepository
 import com.GreenCycleSolutions.gcsbackend.repository.CollectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -49,7 +51,8 @@ public class CollectionService {
                 totalQuantity += entry.getValue();
             }
             collection.setTotalPoints(totalPoints);
-            collection.setTotalQuantity(totalQuantity);
+            var roundedTo2Decimals = new BigDecimal(totalQuantity).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            collection.setTotalQuantity(roundedTo2Decimals);
             collectionRepository.save(collection);
 
         } else {
