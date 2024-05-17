@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import { client } from "../../api/AuthenticationService";
+import { authClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -63,8 +64,8 @@ function Register() {
       setIsEmailValid(true);
       setIsChecked(true);
       try {
-        let response = await client.post(
-          "/account",
+        let response = await axios.post(
+          authClientUrl + "/account",
           {
             cnp: cnp,
             firstName: firstName,

@@ -9,13 +9,11 @@ export const AuthProvider = ({ children }) => {
     return storedAuth
       ? {
           usernameContext: JSON.parse(storedAuth).usernameContext,
-          passwordContext: JSON.parse(storedAuth).passwordContext,
           role: JSON.parse(storedAuth).role,
           gender: JSON.parse(storedAuth).gender,
         }
       : {
           usernameContext: null,
-          passwordContext: null,
           role: null,
           gender: null,
         };

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import AddressCard from "./components";
-import { addressesClient } from "../../api/RequestService.js";
-import { collectionsClient } from "../../api/RequestService.js";
+import { addressesClientUrl } from "../../api/RequestService.js";
+import { collectionsClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import metal from "../../assets/images/metal.png";
 import plastic from "../../assets/images/plastic.png";
 import paper from "../../assets/images/paper.png";
@@ -61,22 +62,12 @@ function AgentDashboard() {
   useEffect(() => {
     const fetchCurrentDayAddresses = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await addressesClient.get(
-          "/today",
-          {
-            auth: {
-              username: auth.usernameContext,
-              password: key,
-            },
+        let response = await axios.get(addressesClientUrl + "/today", {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
         setAddresses(response.data);
         const array = [];
         response.data.map((data) => array.push(data.collectionCode));
@@ -112,18 +103,11 @@ function AgentDashboard() {
       return map;
     }, {});
     try {
-      const key = localStorage.getItem("session-key");
-      await collectionsClient.post(
-        "",
+      await axios.post(
+        collectionsClientUrl,
         {
           collectionCode: selectedCode,
           quantities: quantitiesMap,
-        },
-        {
-          auth: {
-            username: auth.usernameContext,
-            password: key,
-          },
         },
         {
           headers: {

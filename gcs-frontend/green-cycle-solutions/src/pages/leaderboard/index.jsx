@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import FirstPlace from "../../assets/images/1stPlace.png";
 import SecondPlace from "../../assets/images/2ndPlace.png";
 import ThirdPlace from "../../assets/images/3rdPlace.png";
-import { collectionsClient } from "../../api/RequestService";
+import { collectionsClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import AuthContext from "../../api/AuthProvider";
 
 function Leaderboard() {
@@ -21,22 +22,12 @@ function Leaderboard() {
   useEffect(() => {
     const fetchWeeklyCollections = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await collectionsClient.get(
-          "/weekly",
-          {
-            auth: {
-              username: auth.usernameContext,
-              password: key,
-            },
+        let response = await axios.get(collectionsClientUrl + "/weekly", {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
         setCollections(response.data);
         console.log(response.data);
       } catch (error) {

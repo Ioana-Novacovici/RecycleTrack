@@ -1,8 +1,10 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { client } from "../../api/AuthenticationService";
+import { authClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../api/AuthProvider";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -37,8 +39,8 @@ function Login() {
       setIsUsernameValid(true);
       setIsPasswordValid(true);
       try {
-        let response = await client.post(
-          "/login",
+        let response = await axios.post(
+          authClientUrl + "/login",
           {
             username: username,
             password: password,
@@ -50,13 +52,17 @@ function Login() {
             withCredentials: true,
           }
         );
-        const usernameContext = response.data.username;
-        const passwordContext = response.data.password;
-        const role = response.data.role;
-        const gender = response.data.gender;
-        setAuth({ usernameContext, passwordContext, role, gender });
+        console.log(response.data.token);
+        const jwtToken = response.data.token;
+        const decodedJwtToken = jwtDecode(jwtToken);
+        console.log(decodedJwtToken.sub);
+        const usernameContext = decodedJwtToken.sub;
+        const role = decodedJwtToken.role;
+        const gender = decodedJwtToken.gender;
+        setAuth({ usernameContext, role, gender });
+        localStorage.setItem("token", jwtToken);
+        console.log(localStorage.getItem("token"));
         localStorage.setItem("user", JSON.stringify(auth));
-        localStorage.setItem("session-key", password);
         if (role === "AGENT") {
           navigate("/dashboard-agent");
         } else if (role === "USER") {
@@ -68,6 +74,7 @@ function Login() {
         if (error.response) {
           setErrorMessage("Bad credentials!");
         } else {
+          console.log(error);
           setErrorMessage("Something went wrong. Please try again!");
         }
       }
