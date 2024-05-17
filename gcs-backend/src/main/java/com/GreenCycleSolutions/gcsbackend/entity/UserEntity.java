@@ -51,6 +51,9 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<TokenEntity> tokens;
+
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;

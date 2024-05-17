@@ -40,22 +40,19 @@ public class AuthenticationController {
 
     @Operation(summary = "User log out")
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
-       authenticationService.logout(request);
-       return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+       return new ResponseEntity<>(authenticationService.logout(request), HttpStatus.OK);
     }
 
     @Operation(summary = "Change username of the logged user")
     @PostMapping("/username")
-    public ResponseEntity<?> changeUsername(@RequestBody @Valid UsernameRenewDTO usernameRenewDTO, HttpServletRequest request) {
-        authenticationService.changeUsername(usernameRenewDTO, request);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> changeUsername(@RequestBody String newUsername, HttpServletRequest request) {
+        return new ResponseEntity<>(authenticationService.changeUsername(newUsername, request), HttpStatus.OK);
     }
 
     @Operation(summary = "Change the password of the logged user")
     @PostMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRenewDTO passwordRenewDTO, HttpServletRequest request) {
-        authenticationService.changePassword(passwordRenewDTO, request);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> changePassword(@RequestBody String newPassword, HttpServletRequest request) {
+        return new ResponseEntity<>(authenticationService.changePassword(newPassword, request), HttpStatus.OK);
     }
 }

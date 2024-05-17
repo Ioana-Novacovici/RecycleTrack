@@ -58,15 +58,9 @@ public class AccountGenerationService {
         }
     }
 
-    public void changePassword(String username, String newPassword) {
-        var userOptional = userRepository.findByUsername(username);
-        if(userOptional.isPresent()) {
-            var user = userOptional.get();
+    public void changePassword(UserEntity user, String newPassword) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
-        } else {
-            throw new AccountGenerationException("Username value is invalid");
-        }
     }
 
     public String generatePassword() {

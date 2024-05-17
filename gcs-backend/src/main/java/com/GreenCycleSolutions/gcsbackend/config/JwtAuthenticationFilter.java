@@ -1,5 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.config;
 
+import com.GreenCycleSolutions.gcsbackend.repository.TokenRepository;
 import com.GreenCycleSolutions.gcsbackend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
@@ -31,17 +33,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NotNull FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
+        final String jwtToken;
         final String username;
         if(authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        jwtToken = authHeader.substring(7);
+        username = jwtService.extractUsername(jwtToken);
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if(jwtService.isTokenValid(jwt, userDetails)) {
+            var isTokenValid = tokenRepository.findByToken(jwtToken)
+                    .map(token -> !token.isExpired())
+                    .orElse(false);
+            if(jwtService.isTokenValid(jwtToken, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
