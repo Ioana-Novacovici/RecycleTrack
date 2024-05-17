@@ -1,6 +1,8 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
-import com.GreenCycleSolutions.gcsbackend.dto.*;
+import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.AuthenticationResponse;
+import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.TokenEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.TokenType;
@@ -9,7 +11,6 @@ import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.TokenRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,9 +44,7 @@ public class AuthenticationService {
         if(validUserTokens.isEmpty()) {
             return;
         }
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-        });
+        validUserTokens.forEach(token -> token.setExpired(true));
         tokenRepository.saveAll(validUserTokens);
     }
 
