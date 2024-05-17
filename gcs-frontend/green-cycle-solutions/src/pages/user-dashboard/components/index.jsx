@@ -37,7 +37,6 @@ function CollectionCard({ collection }) {
 
   const handleUsePointsAction = async (e) => {
     e.preventDefault();
-    console.log(collection);
     try {
       await axios.post(
         collectionsClientUrl + "/use",
@@ -54,9 +53,7 @@ function CollectionCard({ collection }) {
       );
       setUsed(true);
       setButtonText("Points Used");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

@@ -1,8 +1,6 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
-import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.AuthenticationResponse;
-import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.*;
 import com.GreenCycleSolutions.gcsbackend.entity.TokenEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.enumtype.TokenType;
@@ -84,7 +82,7 @@ public class AuthenticationService {
 
     }
 
-    public String changeUsername(String newUsername, HttpServletRequest request) {
+    public String changeUsername(UsernameRenewDTO newUsername, HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("The user is not logged in, hence can not change the username.");
@@ -94,7 +92,7 @@ public class AuthenticationService {
         if (!storedToken.isExpired()) {
             //after changing the username, automatically log out user
             storedToken.setExpired(true);
-            accountGenerationService.changeUsername(storedToken.getUser().getUsername(), newUsername);
+            accountGenerationService.changeUsername(storedToken.getUser().getUsername(), newUsername.getNewUsername());
             tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
             return "Username changed successfully";
@@ -103,7 +101,7 @@ public class AuthenticationService {
         }
     }
 
-    public String changePassword(String newPassword, HttpServletRequest request) {
+    public String changePassword(PasswordRenewDTO newPassword, HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("The user is not logged in, hence can not change the password.");
@@ -113,7 +111,7 @@ public class AuthenticationService {
         if (!storedToken.isExpired()) {
             //after changing the password, automatically log out user
             storedToken.setExpired(true);
-            accountGenerationService.changePassword(storedToken.getUser(), newPassword);
+            accountGenerationService.changePassword(storedToken.getUser(), newPassword.getNewPassword());
             tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
             return "Password changed successfully";

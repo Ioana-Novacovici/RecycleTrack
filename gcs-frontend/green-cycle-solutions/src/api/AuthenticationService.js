@@ -9,7 +9,6 @@ export const useLogout = () => {
   const logout = async () => {
     try {
       let response = await axios.post("http://localhost:8080/auth/logout");
-      console.log(response);
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       setAuth({});

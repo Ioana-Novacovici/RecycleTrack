@@ -46,13 +46,13 @@ public class AuthenticationController {
 
     @Operation(summary = "Change username of the logged user")
     @PostMapping("/username")
-    public ResponseEntity<String> changeUsername(@RequestBody String newUsername, HttpServletRequest request) {
+    public ResponseEntity<String> changeUsername(@RequestBody @Valid UsernameRenewDTO newUsername, HttpServletRequest request) {
         return new ResponseEntity<>(authenticationService.changeUsername(newUsername, request), HttpStatus.OK);
     }
 
     @Operation(summary = "Change the password of the logged user")
     @PostMapping("/password")
-    public ResponseEntity<String> changePassword(@RequestBody String newPassword, HttpServletRequest request) {
+    public ResponseEntity<String> changePassword(@RequestBody @Valid PasswordRenewDTO newPassword, HttpServletRequest request) {
         return new ResponseEntity<>(authenticationService.changePassword(newPassword, request), HttpStatus.OK);
     }
 }

@@ -13,7 +13,6 @@ function Leaderboard() {
   const [error, setError] = useState();
 
   function getPictureSource(index) {
-    console.log(index);
     if (index === 0) return FirstPlace;
     else if (index === 1) return SecondPlace;
     else if (index === 2) return ThirdPlace;
@@ -29,7 +28,6 @@ function Leaderboard() {
           withCredentials: true,
         });
         setCollections(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response) {
           setError(

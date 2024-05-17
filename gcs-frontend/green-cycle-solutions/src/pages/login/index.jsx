@@ -52,16 +52,13 @@ function Login() {
             withCredentials: true,
           }
         );
-        console.log(response.data.token);
         const jwtToken = response.data.token;
         const decodedJwtToken = jwtDecode(jwtToken);
-        console.log(decodedJwtToken.sub);
         const usernameContext = decodedJwtToken.sub;
         const role = decodedJwtToken.role;
         const gender = decodedJwtToken.gender;
         setAuth({ usernameContext, role, gender });
         localStorage.setItem("token", jwtToken);
-        console.log(localStorage.getItem("token"));
         localStorage.setItem("user", JSON.stringify(auth));
         if (role === "AGENT") {
           navigate("/dashboard-agent");
@@ -74,7 +71,6 @@ function Login() {
         if (error.response) {
           setErrorMessage("Bad credentials!");
         } else {
-          console.log(error);
           setErrorMessage("Something went wrong. Please try again!");
         }
       }

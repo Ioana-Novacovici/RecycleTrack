@@ -85,15 +85,12 @@ function AgentDashboard() {
 
   const handleAddCollection = async () => {
     const types = ["METAL", "PLASTIC", "PAPER", "GLASS"];
-    console.log(quantities);
     for (let quantity of quantities) {
       if (quantity === "") {
-        console.log("something in if");
         setFormError("Fill in all quantities!");
         return;
       }
     }
-    console.log("after");
     if (selectedCode === "DEFAULT") {
       setFormError("Select a collection code!");
       return;
