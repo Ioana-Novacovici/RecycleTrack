@@ -1,10 +1,7 @@
 package com.GreenCycleSolutions.gcsbackend.controller;
 
 
-import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.PasswordRenewDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.UsernameRenewDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.*;
 import com.GreenCycleSolutions.gcsbackend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,9 +33,9 @@ public class AuthenticationController {
 
     @Operation(summary = "User log in")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthRequestDTO authRequestDTO, HttpServletRequest request) {
-        var userDetails = authenticationService.login(authRequestDTO, request);
-        return new ResponseEntity<>(userDetails, HttpStatus.OK);
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthRequestDTO authRequestDTO) {
+        var response = authenticationService.login(authRequestDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "User log out")

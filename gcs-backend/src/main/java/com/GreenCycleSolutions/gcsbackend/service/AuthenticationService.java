@@ -1,46 +1,47 @@
 package com.GreenCycleSolutions.gcsbackend.service;
 
-import com.GreenCycleSolutions.gcsbackend.dto.AuthRequestDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.PasswordRenewDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
-import com.GreenCycleSolutions.gcsbackend.dto.UsernameRenewDTO;
+import com.GreenCycleSolutions.gcsbackend.dto.*;
 import com.GreenCycleSolutions.gcsbackend.exception.AuthenticationException;
+import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
+import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final AccountGenerationService accountGenerationService;
-    private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserDetailsService userDetailsService ) {
+    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserRepository userRepository, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
         this.accountGenerationService = accountGenerationService;
-        this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
     public void generateAccount(UserDTO userDTO) {
         accountGenerationService.generateAccount(userDTO);
     }
 
-    public UserDetails login(AuthRequestDTO authRequestDTO, HttpServletRequest request) {
+    public AuthenticationResponse login(AuthRequestDTO authRequestDTO) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword())
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequestDTO.getUsername());
-        HttpSession session = request.getSession(true);
-        session.setAttribute("user", userDetails);
-        return userDetails;
+        var user = userRepository.findByUsername(authRequestDTO.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("The username" + authRequestDTO.getUsername() + "was not found"));;
+        var jwtToken = jwtService.generateToken(Map.of("gender", user.getGender(), "role", user.getRole()), user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
     public void logout(HttpServletRequest request) {
