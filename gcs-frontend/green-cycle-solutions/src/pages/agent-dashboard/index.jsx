@@ -7,7 +7,6 @@ import metal from "../../assets/images/metal.png";
 import plastic from "../../assets/images/plastic.png";
 import paper from "../../assets/images/paper.png";
 import glass from "../../assets/images/glass.png";
-import AuthContext from "../../api/AuthProvider";
 
 function AgentDashboard() {
   const currentDate = new Date();
@@ -34,7 +33,6 @@ function AgentDashboard() {
   const [error, setError] = useState();
   const [formError, setFormError] = useState("");
   const [collectionCodes, setCollectionCodes] = useState([]);
-  const { auth } = useContext(AuthContext);
   const [quantities, setQuantities] = useState(
     new Array(images.length).fill("0.5")
   );

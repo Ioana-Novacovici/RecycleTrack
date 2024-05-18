@@ -4,12 +4,10 @@ import SecondPlace from "../../assets/images/2ndPlace.png";
 import ThirdPlace from "../../assets/images/3rdPlace.png";
 import { collectionsClientUrl } from "../../api/RequestService.js";
 import axios from "../../api/AxiosConfig.js";
-import AuthContext from "../../api/AuthProvider";
 
 function Leaderboard() {
   const headerText = ["Rank", "User", "Quantity recycled"];
   const [collections, setCollections] = useState([]);
-  const { auth } = useContext(AuthContext);
   const [error, setError] = useState();
 
   function getPictureSource(index) {
