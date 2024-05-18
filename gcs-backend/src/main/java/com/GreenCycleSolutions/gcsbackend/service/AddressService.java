@@ -8,6 +8,7 @@ import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.AddressRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -18,15 +19,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AddressService {
 
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
-
-    public AddressService(AddressRepository addressRepository, UserRepository userRepository) {
-        this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
-    }
 
     public AddressDTO findById(Integer id) {
         Optional<AddressEntity> address = addressRepository.findById(id);

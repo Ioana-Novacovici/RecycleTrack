@@ -5,6 +5,7 @@ import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.exception.AccountGenerationException;
 import com.GreenCycleSolutions.gcsbackend.exception.UsernameAlreadyExistsException;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -17,17 +18,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountGenerationService {
 
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
-
-    public AccountGenerationService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public String generateUsername(String firstName, String lastName) {
         var users = userRepository.findAll();

@@ -5,21 +5,18 @@ import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserConverter userConverter;
-
-    public UserService(UserRepository userRepository, UserConverter userConverter) {
-        this.userRepository = userRepository;
-        this.userConverter = userConverter;
-    }
 
     public void addUser(UserDTO userDTO) {
         userRepository.save(userConverter.convertToUserEntity(userDTO));

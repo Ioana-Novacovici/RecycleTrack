@@ -8,12 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserConverter {
 
-    private final AccountGenerationService accountGenerationService;
-
-    public UserConverter(AccountGenerationService accountGenerationService) {
-        this.accountGenerationService = accountGenerationService;
-    }
-
     public static UserDTO convertToUserDTO(UserEntity userEntity) {
         return UserDTO.builder()
                 .cnp(userEntity.getCnp())

@@ -9,6 +9,7 @@ import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.TokenRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
@@ -24,14 +26,6 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
-
-    public AuthenticationService(AuthenticationManager authenticationManager, AccountGenerationService accountGenerationService, UserRepository userRepository, TokenRepository tokenRepository, JwtService jwtService) {
-        this.authenticationManager = authenticationManager;
-        this.accountGenerationService = accountGenerationService;
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-        this.jwtService = jwtService;
-    }
 
     public void generateAccount(UserDTO userDTO) {
         accountGenerationService.generateAccount(userDTO);
@@ -79,7 +73,6 @@ public class AuthenticationService {
         } else {
             throw new AuthenticationException("Expired token");
         }
-
     }
 
     public String changeUsername(UsernameRenewDTO newUsername, HttpServletRequest request) {
