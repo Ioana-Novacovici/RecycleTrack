@@ -2,7 +2,6 @@ package com.GreenCycleSolutions.gcsbackend.converter;
 
 import com.GreenCycleSolutions.gcsbackend.dto.UserDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
-import com.GreenCycleSolutions.gcsbackend.service.AccountGenerationService;
 import org.springframework.stereotype.Component;
 
 @Component
