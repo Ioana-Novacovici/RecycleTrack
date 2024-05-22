@@ -8,9 +8,6 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class PasswordRenewDTO {
 
-    @NotBlank(message = "Username must not be null or blank")
-    private String username;
-
     @NotBlank(message = "Password must not be null or blank")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,}$",
             message = "Password must contain letters, at least one digit and one special character")

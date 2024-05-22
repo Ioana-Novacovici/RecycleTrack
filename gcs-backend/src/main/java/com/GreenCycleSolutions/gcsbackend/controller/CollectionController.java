@@ -6,6 +6,7 @@ import com.GreenCycleSolutions.gcsbackend.service.CollectionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/collections")
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @Tag(name = "Collection Controller", description = "API for collection related operations")
 public class CollectionController {
 
     private final CollectionService collectionService;
-
-    public CollectionController(CollectionService collectionService) {
-        this.collectionService = collectionService;
-    }
 
     @Operation(summary = "Add a collection")
     @PostMapping

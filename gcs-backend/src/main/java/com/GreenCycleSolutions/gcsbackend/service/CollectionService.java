@@ -11,6 +11,7 @@ import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.AddressRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.CollectionDetailsRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.CollectionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,17 +26,12 @@ import java.util.Optional;
 import static com.GreenCycleSolutions.gcsbackend.converter.CollectionConverter.*;
 
 @Service
+@RequiredArgsConstructor
 public class CollectionService {
 
     private final CollectionDetailsRepository collectionDetailsRepository;
     private final CollectionRepository collectionRepository;
     private final AddressRepository addressRepository;
-
-    public CollectionService(CollectionDetailsRepository collectionDetailsRepository, CollectionRepository collectionRepository, AddressRepository addressRepository) {
-        this.collectionDetailsRepository = collectionDetailsRepository;
-        this.collectionRepository = collectionRepository;
-        this.addressRepository = addressRepository;
-    }
 
     public void addCollection(AgentCollectionDTO collectionDTO) {
         Optional<AddressEntity> addressEntityOptional = addressRepository

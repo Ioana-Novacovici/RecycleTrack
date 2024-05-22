@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import AddressCard from "./components";
-import { addressesClient } from "../../api/RequestService.js";
-import { collectionsClient } from "../../api/RequestService.js";
+import { addressesClientUrl } from "../../api/RequestService.js";
+import { collectionsClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import metal from "../../assets/images/metal.png";
 import plastic from "../../assets/images/plastic.png";
 import paper from "../../assets/images/paper.png";
 import glass from "../../assets/images/glass.png";
-import AuthContext from "../../api/AuthProvider";
 
 function AgentDashboard() {
   const currentDate = new Date();
@@ -33,7 +33,6 @@ function AgentDashboard() {
   const [error, setError] = useState();
   const [formError, setFormError] = useState("");
   const [collectionCodes, setCollectionCodes] = useState([]);
-  const { auth } = useContext(AuthContext);
   const [quantities, setQuantities] = useState(
     new Array(images.length).fill("0.5")
   );
@@ -61,22 +60,12 @@ function AgentDashboard() {
   useEffect(() => {
     const fetchCurrentDayAddresses = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await addressesClient.get(
-          "/today",
-          {
-            auth: {
-              username: auth.usernameContext,
-              password: key,
-            },
+        let response = await axios.get(addressesClientUrl + "/today", {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
         setAddresses(response.data);
         const array = [];
         response.data.map((data) => array.push(data.collectionCode));
@@ -94,15 +83,12 @@ function AgentDashboard() {
 
   const handleAddCollection = async () => {
     const types = ["METAL", "PLASTIC", "PAPER", "GLASS"];
-    console.log(quantities);
     for (let quantity of quantities) {
       if (quantity === "") {
-        console.log("something in if");
         setFormError("Fill in all quantities!");
         return;
       }
     }
-    console.log("after");
     if (selectedCode === "DEFAULT") {
       setFormError("Select a collection code!");
       return;
@@ -112,18 +98,11 @@ function AgentDashboard() {
       return map;
     }, {});
     try {
-      const key = localStorage.getItem("session-key");
-      await collectionsClient.post(
-        "",
+      await axios.post(
+        collectionsClientUrl,
         {
           collectionCode: selectedCode,
           quantities: quantitiesMap,
-        },
-        {
-          auth: {
-            username: auth.usernameContext,
-            password: key,
-          },
         },
         {
           headers: {

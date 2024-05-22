@@ -5,11 +5,12 @@ import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
 import com.GreenCycleSolutions.gcsbackend.exception.AccountGenerationException;
 import com.GreenCycleSolutions.gcsbackend.exception.UsernameAlreadyExistsException;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,16 +18,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountGenerationService {
 
     private final UserRepository userRepository;
     private final EmailService emailService;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public AccountGenerationService(UserRepository userRepository, EmailService emailService) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public String generateUsername(String firstName, String lastName) {
         var users = userRepository.findAll();
@@ -57,15 +54,9 @@ public class AccountGenerationService {
         }
     }
 
-    public void changePassword(String username, String newPassword) {
-        var userOptional = userRepository.findByUsername(username);
-        if(userOptional.isPresent()) {
-            var user = userOptional.get();
+    public void changePassword(UserEntity user, String newPassword) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
-        } else {
-            throw new AccountGenerationException("Username value is invalid");
-        }
     }
 
     public String generatePassword() {

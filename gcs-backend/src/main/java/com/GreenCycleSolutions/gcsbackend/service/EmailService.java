@@ -8,18 +8,16 @@ import com.amazonaws.services.simpleemail.model.Content;
 import com.amazonaws.services.simpleemail.model.Destination;
 import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class EmailService {
 
     private final AmazonSimpleEmailService amazonSESClient;
 
     private static final String SENDER_EMAIL = "ioananovacovici@gmail.com";
-
-    public EmailService(AmazonSimpleEmailService amazonSESClient) {
-        this.amazonSESClient = amazonSESClient;
-    }
 
     public void sendSuccessEmail(UserDTO userDTO, String username, String password) {
         String emailContent =

@@ -2,17 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import FirstPlace from "../../assets/images/1stPlace.png";
 import SecondPlace from "../../assets/images/2ndPlace.png";
 import ThirdPlace from "../../assets/images/3rdPlace.png";
-import { collectionsClient } from "../../api/RequestService";
-import AuthContext from "../../api/AuthProvider";
+import { collectionsClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 
 function Leaderboard() {
   const headerText = ["Rank", "User", "Quantity recycled"];
   const [collections, setCollections] = useState([]);
-  const { auth } = useContext(AuthContext);
   const [error, setError] = useState();
 
   function getPictureSource(index) {
-    console.log(index);
     if (index === 0) return FirstPlace;
     else if (index === 1) return SecondPlace;
     else if (index === 2) return ThirdPlace;
@@ -21,24 +19,13 @@ function Leaderboard() {
   useEffect(() => {
     const fetchWeeklyCollections = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await collectionsClient.get(
-          "/weekly",
-          {
-            auth: {
-              username: auth.usernameContext,
-              password: key,
-            },
+        let response = await axios.get(collectionsClientUrl + "/weekly", {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
         setCollections(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response) {
           setError(

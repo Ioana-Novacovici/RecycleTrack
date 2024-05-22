@@ -5,7 +5,8 @@ import paperCollection from "../../../assets/images/paperCollection.png";
 import metalCollection from "../../../assets/images/metalCollection.png";
 import plasticCollection from "../../../assets/images/plasticCollection.png";
 import AuthContext from "../../../api/AuthProvider";
-import { collectionsClient } from "../../../api/RequestService.js";
+import axios from "../../../api/AxiosConfig.js";
+import { collectionsClientUrl } from "../../../api/RequestService.js";
 
 function CollectionCard({ collection }) {
   if (!collection) {
@@ -36,20 +37,12 @@ function CollectionCard({ collection }) {
 
   const handleUsePointsAction = async (e) => {
     e.preventDefault();
-    console.log(collection);
     try {
-      const key = localStorage.getItem("session-key");
-      await collectionsClient.post(
-        "/use",
+      await axios.post(
+        collectionsClientUrl + "/use",
         {
           date: collection.date,
           username: auth.usernameContext,
-        },
-        {
-          auth: {
-            username: auth.usernameContext,
-            password: key,
-          },
         },
         {
           headers: {
@@ -60,9 +53,7 @@ function CollectionCard({ collection }) {
       );
       setUsed(true);
       setButtonText("Points Used");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

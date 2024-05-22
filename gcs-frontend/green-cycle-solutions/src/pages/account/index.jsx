@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import AvatarMale from "../../assets/images/UserAvatarMale.png";
 import AvatarFemale from "../../assets/images/UserAvatarFemale.png";
 import AuthContext from "../../api/AuthProvider";
-import { addressesClient } from "../../api/RequestService.js";
+import { addressesClientUrl, authClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 import { useNavigate } from "react-router-dom";
-import { client } from "../../api/AuthenticationService";
 import "../account/style.css";
 
 function Account() {
-  const { auth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const [address, setAddress] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,10 +27,9 @@ function Account() {
   const handleUsernameSubmit = async (e) => {
     e.preventDefault();
     try {
-      let response = await client.post(
-        "/username",
+      let response = await axios.post(
+        authClientUrl + "/username",
         {
-          oldUsername: auth.usernameContext,
           newUsername: username,
         },
         {
@@ -41,7 +40,8 @@ function Account() {
         }
       );
       localStorage.removeItem("user");
-      localStorage.removeItem("session-key");
+      localStorage.removeItem("token");
+      setAuth({});
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -55,10 +55,9 @@ function Account() {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
-      await client.post(
-        "/password",
+      await axios.post(
+        authClientUrl + "/password",
         {
-          username: auth.usernameContext,
           newPassword: password,
         },
         {
@@ -69,7 +68,8 @@ function Account() {
         }
       );
       localStorage.removeItem("user");
-      localStorage.removeItem("session-key");
+      localStorage.removeItem("token");
+      setAuth({});
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -87,16 +87,11 @@ function Account() {
   useEffect(() => {
     const fetchUserAddress = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await addressesClient.get(
-          "",
+        let response = await axios.get(
+          addressesClientUrl,
           {
             params: {
               username: auth.usernameContext,
-            },
-            auth: {
-              username: auth.usernameContext,
-              password: key,
             },
           },
           {

@@ -1,9 +1,5 @@
-import axios from "axios";
+export const addressesClientUrl = "http://localhost:8080/addresses";
 
-export const addressesClient = axios.create({
-  baseURL: "http://localhost:8080/addresses",
-});
+export const collectionsClientUrl = "http://localhost:8080/collections";
 
-export const collectionsClient = axios.create({
-  baseURL: "http://localhost:8080/collections",
-});
+export const authClientUrl = "http://localhost:8080/auth";

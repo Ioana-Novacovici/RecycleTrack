@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import CollectionCard from "./components";
-import { collectionsClient } from "../../api/RequestService";
 import AuthContext from "../../api/AuthProvider";
+import { collectionsClientUrl } from "../../api/RequestService.js";
+import axios from "../../api/AxiosConfig.js";
 
 function UserDashboard() {
   const { auth } = useContext(AuthContext);
@@ -12,16 +13,11 @@ function UserDashboard() {
   useEffect(() => {
     const fetchUserCollections = async () => {
       try {
-        const key = localStorage.getItem("session-key");
-        let response = await collectionsClient.get(
-          "",
+        let response = await axios.get(
+          collectionsClientUrl,
           {
             params: {
               username: auth.usernameContext,
-            },
-            auth: {
-              username: auth.usernameContext,
-              password: key,
             },
           },
           {
