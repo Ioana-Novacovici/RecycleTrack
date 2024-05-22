@@ -35,4 +35,9 @@ public class UserService {
         var users = userRepository.findAll();
         return users.stream().map(UserConverter::convertToUserDTO).toList();
     }
+
+    public String deleteUserById(Integer id) {
+        userRepository.deleteById(id);
+        return "User deleted successfully!";
+    }
 }
