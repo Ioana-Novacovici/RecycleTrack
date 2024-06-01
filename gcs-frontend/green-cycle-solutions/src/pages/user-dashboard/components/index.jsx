@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Barcode from "react-barcode";
+import QRCode from "react-qr-code";
 import glassCollection from "../../../assets/images/glassCollection.png";
 import paperCollection from "../../../assets/images/paperCollection.png";
 import metalCollection from "../../../assets/images/metalCollection.png";
@@ -154,17 +154,22 @@ function CollectionCard({ collection }) {
               ></button>
             </div>
             <div className="modal-body">
-              <h6>
-                Make sure you save this barcode. Enjoy your shopping discount!
-              </h6>
-              <Barcode
-                className="ms-1 mt-3"
-                value={barCodeInformation}
-                width={1.5}
-                height={100}
-                displayValue={false}
-                background="#bed0ab"
-              />
+              <h6>Make sure you save this QR! Enjoy your shopping discount!</h6>
+              <div
+                style={{
+                  display: "grid",
+                  placeItems: "center",
+                  backgroundColor: "#bed0ab",
+                }}
+              >
+                <QRCode
+                  size={256}
+                  className="mt-3 mb-3"
+                  style={{ height: "auto", maxWidth: "50%", width: "50%" }}
+                  value={barCodeInformation}
+                  bgColor="#bed0ab"
+                />
+              </div>
             </div>
             <div className="modal-footer">
               <button
