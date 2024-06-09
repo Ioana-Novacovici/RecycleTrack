@@ -111,7 +111,7 @@ function AgentDashboard() {
           withCredentials: true,
         }
       );
-      setQuantities(new Array(quantities.length).fill(""));
+      setQuantities(new Array(quantities.length).fill("0.5"));
       setSuccesMessage("Collection added succesfully!");
     } catch (error) {
       if (error.response) {
