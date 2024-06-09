@@ -26,9 +26,6 @@ public class CollectionDetailsEntity {
     @Column
     private Double quantity;
 
-    @Column
-    private Integer points;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="collection_id", nullable=false)
     private CollectionEntity collectionEntity;
