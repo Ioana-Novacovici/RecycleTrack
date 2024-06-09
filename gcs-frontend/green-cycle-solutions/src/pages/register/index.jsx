@@ -161,7 +161,7 @@ function Register() {
         className="text-center mt-3 mb-5 fw-normal fst-italic"
         style={{ color: "#354a3f" }}
       >
-        Request your account activation
+        Request account activation
       </h4>
       {errorMessage ? (
         <div

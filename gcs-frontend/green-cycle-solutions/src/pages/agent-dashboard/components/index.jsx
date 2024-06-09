@@ -22,7 +22,7 @@ function AddressCard({ address }) {
             className="fa-solid fa-house me-3"
             style={{ color: "#354a3f" }}
           ></i>
-          Pick-up address: {address.street} Street {address.streetNumber}
+          Pick-up address: {address.street} Street, Nr. {address.streetNumber}
           {address.block ? (
             ", Block " + address.block
           ) : (
