@@ -34,58 +34,45 @@ public class CollectionService {
     private final AddressRepository addressRepository;
 
     public void addCollection(AgentCollectionDTO collectionDTO) {
-        Optional<AddressEntity> addressEntityOptional = addressRepository
-                .findByCollectionCode(collectionDTO.getCollectionCode());
-        if (addressEntityOptional.isPresent()) {
-            var address = addressEntityOptional.get();
-            CollectionEntity collection = collectionRepository.save(convertToCollectionEntity(address));
-            Integer totalPoints = 0;
-            Double totalQuantity = 0.0;
-            for (Map.Entry<RecycledType, Double> entry : collectionDTO.getQuantities().entrySet()) {
-                collectionDetailsRepository.save(convertToCollectionDetailsEntity(entry, collection));
-                totalPoints += computePoints(entry.getKey(), entry.getValue());
-                totalQuantity += entry.getValue();
-            }
-            collection.setTotalPoints(totalPoints);
-            var roundedTo2Decimals = new BigDecimal(totalQuantity).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            collection.setTotalQuantity(roundedTo2Decimals);
-            collectionRepository.save(collection);
+        var address = addressRepository
+                .findByCollectionCode(collectionDTO.getCollectionCode())
+                .orElseThrow(() -> new ResourceNotFoundException("The collection code provided is not correct"));
 
-        } else {
-            throw new ResourceNotFoundException("The collection code provided is not correct");
+        CollectionEntity collection = collectionRepository.save(convertToCollectionEntity(address));
+        Integer totalPoints = 0;
+        Double totalQuantity = 0.0;
+        for (Map.Entry<RecycledType, Double> entry : collectionDTO.getQuantities().entrySet()) {
+            collectionDetailsRepository.save(convertToCollectionDetailsEntity(entry, collection));
+            totalPoints += computePoints(entry.getKey(), entry.getValue());
+            totalQuantity += entry.getValue();
         }
+        collection.setTotalPoints(totalPoints);
+        var roundedTo2Decimals = new BigDecimal(totalQuantity).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        collection.setTotalQuantity(roundedTo2Decimals);
+        collectionRepository.save(collection);
+
     }
 
     public void useCollectionPoints(UserCollectionDTO collectionDTO) {
-        Optional<AddressEntity> addressEntityOptional = addressRepository.findByUserUsername(collectionDTO.getUsername());
-        if (addressEntityOptional.isPresent()) {
-            var addressId = addressEntityOptional.get().getId();
-            Optional<CollectionEntity> collectionEntityOptional = collectionRepository
-                    .findCollectionEntityByDateAndAddressId(collectionDTO.getDate(), addressId);
-            if(collectionEntityOptional.isPresent()) {
-                var collection = collectionEntityOptional.get();
-                collection.setIsUsed(true);
-                collectionRepository.save(collection);
-            } else {
-                throw new ResourceNotFoundException("The collection date provided is not correct");
-            }
-        } else {
-            throw new ResourceNotFoundException("The username: " + collectionDTO.getUsername() + " does not exist");
-        }
+        var address = addressRepository.findByUserUsername(collectionDTO.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("The username: " + collectionDTO.getUsername() + " does not exist"));
+        var addressId = address.getId();
+        var collection = collectionRepository
+                .findCollectionEntityByDateAndAddressId(collectionDTO.getDate(), addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("The collection date provided is not correct"));
+        collection.setIsUsed(true);
+        collectionRepository.save(collection);
     }
 
     public List<UserCollectionDTO> getCollections(String username) {
-        Optional<AddressEntity> addressEntityOptional = addressRepository.findByUserUsername(username);
-        if (addressEntityOptional.isPresent()) {
-            var addressId = addressEntityOptional.get().getId();
-            var collections = collectionRepository.findByAddressId(addressId);
-            if (collections.isEmpty())
-                throw new ResourceNotFoundException("The username: " + username + " does not have any collections");
-            return collections.stream().map(collectionEntity ->
-                    convertToCollectionDTO(collectionEntity, getCollectionDetailsFor(collectionEntity.getId()))).toList();
-        } else {
-            throw new ResourceNotFoundException("The username: " + username + " does not exist");
-        }
+        var address = addressRepository.findByUserUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("The username: " + username + " does not exist"));
+        var addressId = address.getId();
+        var collections = collectionRepository.findByAddressId(addressId);
+        if (collections.isEmpty())
+            throw new ResourceNotFoundException("The username: " + username + " does not have any collections");
+        return collections.stream().map(collectionEntity ->
+                convertToCollectionDTO(collectionEntity, getCollectionDetailsFor(collectionEntity.getId()))).toList();
     }
 
     public List<UserCollectionDTO> getWeeklyTopCollections() {
@@ -94,14 +81,14 @@ public class CollectionService {
         LocalDate lastDayOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
         List<CollectionEntity> collectionEntities = collectionRepository
                 .findCollectionEntityByDateBetweenOrderByTotalQuantityDesc(firstDayOfWeek, lastDayOfWeek);
-        if(collectionEntities.isEmpty()) {
+        if (collectionEntities.isEmpty()) {
             throw new ResourceNotFoundException("No collections this week.");
         }
         return collectionEntities.stream().map(
                 (collectionEntity) -> {
                     var id = collectionEntity.getAddress().getId();
                     var address = addressRepository.findById(id);
-                    if(address.isPresent()){
+                    if (address.isPresent()) {
                         var username = address.get().getUser().getUsername();
                         return convertToCollectionDTO(collectionEntity, username);
                     } else {

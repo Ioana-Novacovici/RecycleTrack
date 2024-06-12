@@ -26,7 +26,6 @@ public class CollectionConverter {
                 .collectionEntity(collection)
                 .recycledType(entry.getKey())
                 .quantity(entry.getValue())
-                .points(computePoints(entry.getKey(), entry.getValue()))
                 .build();
     }
 
@@ -51,7 +50,6 @@ public class CollectionConverter {
 
     public static CollectionDetailsDTO convertToCollectionDetailsDTO(CollectionDetailsEntity collectionDetails) {
         return CollectionDetailsDTO.builder()
-                .points(collectionDetails.getPoints())
                 .recycledType(collectionDetails.getRecycledType())
                 .quantity(collectionDetails.getQuantity())
                 .build();

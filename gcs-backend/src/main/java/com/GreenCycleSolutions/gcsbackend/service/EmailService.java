@@ -27,7 +27,7 @@ public class EmailService {
                         <head>
                             <meta charset="utf-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1">
-                            <title>Green Cycle Solutions</title>
+                            <title>RecycleTrack</title>
                         </head>
                         <body style="background: whitesmoke; padding: 20px; height: 100%">
                         <h5 style="font-size: 18px; margin-bottom: 6px">Dear
@@ -38,7 +38,7 @@ public class EmailService {
                         " " + userDTO.getLastName() +
                         """
                         , </h5>
-                        <p style="font-size: 16px; font-weight: 500">We received your request for activating your account on Green Cycle Solutions.
+                        <p style="font-size: 16px; font-weight: 500">We received your request for activating your account on RecycleTrack.
                         Your account is now ready to use. Please use the credentials down below for logging into your newly created account.</p>
                         <p style="font-size: 16px; font-weight: 500">Username:
                         """
@@ -49,11 +49,11 @@ public class EmailService {
                         """
                         + password +
                         """
-                        <p style="font-size: 16px; font-weight: 500">Best regards, from Green Cycle Solutions</p>
+                        <p style="font-size: 16px; font-weight: 500">Best regards, from RecycleTrack! </p>
                         </body>
                         </html>""";
 
-        String emailSubject = "Green Cycle Solutions - Account Activation Request Successful";
+        String emailSubject = "RecycleTrack - Account Activation Request";
 
         sendEmail(userDTO, emailContent, emailSubject);
     }

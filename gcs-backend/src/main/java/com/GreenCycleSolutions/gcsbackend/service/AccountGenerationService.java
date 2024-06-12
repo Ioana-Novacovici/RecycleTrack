@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,23 +39,18 @@ public class AccountGenerationService {
     public void changeUsername(String oldUsername, String newUsername) {
         var users = userRepository.findAll();
         List<String> usernames = users.stream().map(UserEntity::getUsername).toList();
-        if(!usernames.contains(newUsername)) {
-            var userOptional = userRepository.findByUsername(oldUsername);
-            if(userOptional.isPresent()) {
-                var user = userOptional.get();
-                user.setUsername(newUsername);
-                userRepository.save(user);
-            } else {
-                throw new AccountGenerationException("Username value is invalid");
-            }
+        if (!usernames.contains(newUsername)) {
+            var user = userRepository.findByUsername(oldUsername).orElseThrow(() -> new AccountGenerationException("Username value is invalid"));
+            user.setUsername(newUsername);
+            userRepository.save(user);
         } else {
             throw new UsernameAlreadyExistsException("This username is already in use. Try again!");
         }
     }
 
     public void changePassword(UserEntity user, String newPassword) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     public String generatePassword() {
@@ -91,29 +85,25 @@ public class AccountGenerationService {
     }
 
     public void generateAccount(UserDTO userDTO) {
-        Optional<UserEntity> userOptional = userRepository.findByCnp(userDTO.getCnp());
-        if(userOptional.isPresent()) {
-            var user = userOptional.get();
-            if(Objects.equals(user.getFirstName(), userDTO.getFirstName()) &&
-                    Objects.equals(user.getLastName(), userDTO.getLastName())) {
-                if(user.getUsername() != null) {
-                    //the data is valid, but an account was already generated for this user if there is a username
-                    throw new AccountGenerationException("There is already an account registered with this data.");
-                }
-                var username = generateUsername(user.getFirstName(), user.getLastName());
-                var password = generatePassword();
-                //update user with values for the account generated
-                user.setPassword(passwordEncoder.encode(password));
-                user.setUsername(username);
-                //update email with value provided
-                user.setEmail(userDTO.getEmail());
-                emailService.sendSuccessEmail(userDTO, username, password);
-                userRepository.save(user);
-            } else {
-                throw new AccountGenerationException("There is no record of this person's data, can not activate");
+        var user = userRepository.findByCnp(userDTO.getCnp())
+                .orElseThrow(() -> new AccountGenerationException("There is no record of this person's data, can not activate"));
+        if (Objects.equals(user.getFirstName(), userDTO.getFirstName()) &&
+                Objects.equals(user.getLastName(), userDTO.getLastName())) {
+            if (user.getUsername() != null) {
+                //the data is valid, but an account was already generated for this user if there is a username
+                throw new AccountGenerationException("There is already an account registered with this data.");
             }
+            var username = generateUsername(user.getFirstName(), user.getLastName());
+            var password = generatePassword();
+            //update user with values for the account generated
+            user.setPassword(passwordEncoder.encode(password));
+            user.setUsername(username);
+            //update email with value provided
+            user.setEmail(userDTO.getEmail());
+            emailService.sendSuccessEmail(userDTO, username, password);
+            userRepository.save(user);
         } else {
-            throw new AccountGenerationException("There is no record of this person's data, can not activate");
+            throw new AccountGenerationException("There is no record of the data provided");
         }
     }
 }

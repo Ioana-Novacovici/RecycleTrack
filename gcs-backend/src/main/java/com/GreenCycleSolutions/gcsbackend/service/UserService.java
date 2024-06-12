@@ -23,16 +23,18 @@ public class UserService {
     }
 
     public UserDTO getUserById(Integer id) {
-        Optional<UserEntity> user = userRepository.findById(id);
-        if(user.isPresent()) {
-            return UserConverter.convertToUserDTO(user.get());
-        } else {
-            throw new ResourceNotFoundException("User with id: " + id + " not found");
-        }
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " not found"));
+        return UserConverter.convertToUserDTO(user);
     }
 
     public List<UserDTO> getAllUsers() {
         var users = userRepository.findAll();
         return users.stream().map(UserConverter::convertToUserDTO).toList();
+    }
+
+    public String deleteUserById(Integer id) {
+        userRepository.deleteById(id);
+        return "User deleted successfully!";
     }
 }

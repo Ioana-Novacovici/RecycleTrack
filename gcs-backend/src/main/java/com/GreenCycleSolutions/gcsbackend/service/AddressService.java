@@ -5,6 +5,8 @@ import com.GreenCycleSolutions.gcsbackend.converter.AddressConverter;
 import com.GreenCycleSolutions.gcsbackend.dto.AddressDTO;
 import com.GreenCycleSolutions.gcsbackend.entity.AddressEntity;
 import com.GreenCycleSolutions.gcsbackend.entity.UserEntity;
+import com.GreenCycleSolutions.gcsbackend.entity.enumtype.Role;
+import com.GreenCycleSolutions.gcsbackend.exception.NotSupportedOperation;
 import com.GreenCycleSolutions.gcsbackend.exception.ResourceNotFoundException;
 import com.GreenCycleSolutions.gcsbackend.repository.AddressRepository;
 import com.GreenCycleSolutions.gcsbackend.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,12 +29,9 @@ public class AddressService {
     private final UserRepository userRepository;
 
     public AddressDTO findById(Integer id) {
-        Optional<AddressEntity> address = addressRepository.findById(id);
-        if(address.isPresent()) {
-            return AddressConverter.convertToAddressDTO(address.get());
-        } else {
-            throw new ResourceNotFoundException("Address with id: " + id + " not found");
-        }
+        var address = addressRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Address with id: " + id + " not found"));
+        return AddressConverter.convertToAddressDTO(address);
     }
 
     public List<AddressDTO> findAddressBy(String street, Integer number, String block, Integer apartmentNumber, String username) {
@@ -58,13 +58,15 @@ public class AddressService {
     }
 
     public void addAddress(AddressDTO addressDTO) {
-        Optional<UserEntity> userEntity = userRepository.findById(addressDTO.getId());
-        if(userEntity.isPresent()) {
+        var user = userRepository.findById(addressDTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("The user with id " + addressDTO.getId() + " does not exist"));
+        if(Objects.equals(user.getRole(), Role.USER)) {
             //generate the unique code for this address
             addressDTO.setCollectionCode(UUID.randomUUID());
-            addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, userEntity.get()));
+            addressRepository.save(AddressConverter.convertToAddressEntity(addressDTO, user));
         } else {
-            throw new ResourceNotFoundException("The user with id " + addressDTO.getId() + " does not exist");
+            throw new NotSupportedOperation("Can not link address to other roles beside USER yet.");
         }
+
     }
 }
