@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import LogoImage from "../../assets/images/gcs_logo.png";
+import LogoImage from "../../assets/images/RT_logo.png";
 import { Link } from "react-router-dom";
 import "../header/style.css";
 import AuthContext from "../../api/AuthProvider";
@@ -17,8 +17,8 @@ function Header() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-header">
       <div className="container-fluid ">
-        <img src={LogoImage} alt="GCS" width="4%" height="4%" />
-        <div className="navbar-brand fs-4 ms-4">Green-Cycle-Solutions </div>
+        <img src={LogoImage} alt="RT" width="4%" height="4%" />
+        <div className="navbar-brand fs-4 ms-4">RecycleTrack </div>
         <button
           className="navbar-toggler"
           type="button"

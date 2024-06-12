@@ -273,9 +273,9 @@ function Register() {
         />
         <label className="form-check-label" htmlFor="exampleCheck1">
           By submitting this form, you agree that the personal information
-          provided will be processed by GCS for your account activation. Your
-          information is confidentiall and will only be used for the intended
-          purpose.
+          provided will be processed by RecycleTrack for your account
+          activation. Your information is confidentiall and will only be used
+          for the intended purpose.
         </label>
       </div>
       <button
