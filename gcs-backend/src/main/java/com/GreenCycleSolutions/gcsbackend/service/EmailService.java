@@ -49,11 +49,11 @@ public class EmailService {
                         """
                         + password +
                         """
-                        <p style="font-size: 16px; font-weight: 500">Best regards, from RecycleTrack</p>
+                        <p style="font-size: 16px; font-weight: 500">Best regards, from RecycleTrack! </p>
                         </body>
                         </html>""";
 
-        String emailSubject = "RecycleTrack - Account Activation Request Successful";
+        String emailSubject = "RecycleTrack - Account Activation Request";
 
         sendEmail(userDTO, emailContent, emailSubject);
     }

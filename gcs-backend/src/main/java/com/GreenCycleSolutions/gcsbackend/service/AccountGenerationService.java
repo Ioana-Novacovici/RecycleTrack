@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -104,7 +103,7 @@ public class AccountGenerationService {
             emailService.sendSuccessEmail(userDTO, username, password);
             userRepository.save(user);
         } else {
-            throw new AccountGenerationException("There is no record of this person's data, can not activate");
+            throw new AccountGenerationException("There is no record of the data provided");
         }
     }
 }
