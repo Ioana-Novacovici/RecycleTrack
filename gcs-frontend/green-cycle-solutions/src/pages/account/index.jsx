@@ -138,7 +138,7 @@ function Account() {
           </h3>
           {auth.role === "USER" ? (
             <div>
-              <h3 className="mb-3 fw-normal " style={{ color: "#354a3f" }}>
+              <h4 className="mb-3 fw-normal " style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-house me-3"></i>
                 {address.street} Street, Nr. {address.streetNumber}
                 {address.block ? (
@@ -151,22 +151,19 @@ function Account() {
                 ) : (
                   <div className="offscreen"></div>
                 )}
-              </h3>
-              <h3 className="mt-1 fs-bolder fs-5" style={{ color: "#354a3f" }}>
+              </h4>
+              <h3 className="mt-1 fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Weekly collection pick-up day: {address.day}
+                Weekly collection - {address.day}
               </h3>
               <h3 className="mt-1 mb-3 fs-5" style={{ color: "#354a3f" }}>
                 <i className="fa-solid fa-recycle me-3"></i>
-                Code: {address.collectionCode}
+                Recycle ID - {address.collectionCode}
               </h3>
             </div>
           ) : (
             <div className="offscreen" />
           )}
-          <h3 className="mt-3 mb-3 fs-5" style={{ color: "#354a3f" }}>
-            Edit your profile
-          </h3>
           {errorMessage ? (
             <div
               ref={errRef}

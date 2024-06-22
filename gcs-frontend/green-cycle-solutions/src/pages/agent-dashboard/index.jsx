@@ -156,23 +156,16 @@ function AgentDashboard() {
           </div>
         </div>
       ) : (
-        <div className="row ms-5 mt-5">
-          <div className="col-6 ms-5">
+        <div className="row ms-3 mt-5 me-3">
+          <div className="col-6 ms-5 me-3">
             <div>
               <h5
-                className="card-header fs-3 text fw-normal mb-3"
+                className="card-header fs-3 text fw-normal mb-5"
                 style={{ color: "#354a3f" }}
               >
                 <i className="fa-regular fa-calendar-days me-3"></i>
-                Today's date: {currentDay}, {formattedDate}
+                {currentDay}, {formattedDate}
               </h5>
-
-              <h3
-                className="mb-3 mt-3 fs-4 text fw-normal"
-                style={{ color: "#354a3f" }}
-              >
-                Recyclables collection locations
-              </h3>
             </div>
             <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
               {addresses.map((address) => (
@@ -181,7 +174,7 @@ function AgentDashboard() {
             </div>
           </div>
           <div
-            className="col-4 ms-5 mb-5 rounded"
+            className="col-4 ms-5 rounded"
             style={{ backgroundColor: "#bed0ab" }}
           >
             <h3
@@ -269,7 +262,7 @@ function AgentDashboard() {
                       alt={image.alt}
                       src={image.src}
                       width="90"
-                      height="70"
+                      height="60"
                     />
                   </label>
                   <div className="col-4 mt-3">

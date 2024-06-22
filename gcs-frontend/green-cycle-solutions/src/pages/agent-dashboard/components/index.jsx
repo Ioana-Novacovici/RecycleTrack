@@ -14,7 +14,7 @@ function AddressCard({ address }) {
         Collection Code: {address.collectionCode}
       </h5>
       <div
-        className="card-body"
+        className="card-body rounded-bottom"
         style={{ color: "#988445", backgroundColor: "#faf9f8" }}
       >
         <h5 className="card-title fs-5">
