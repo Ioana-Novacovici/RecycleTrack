@@ -23,7 +23,7 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Integer>
     List<AddressEntity> findAllBy(@Param("street") String street, @Param("streetNumber") Integer streetNumber, @Param("block") String block,
                                   @Param("apartmentNumber") Integer apartmentNumber, @Param("username")String username);
 
-    List<AddressEntity> findAddressEntitiesByDayEquals(DayOfWeek day);
+    List<AddressEntity> findAddressEntitiesByDayEqualsOrderByStreet(DayOfWeek day);
 
     Optional<AddressEntity> findByCollectionCode(UUID collectionCode);
 

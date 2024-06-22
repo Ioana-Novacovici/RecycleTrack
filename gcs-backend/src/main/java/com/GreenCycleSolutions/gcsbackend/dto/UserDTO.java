@@ -16,21 +16,21 @@ public class UserDTO {
 
     @NotBlank(message = "CNP must not be null or blank")
     @Pattern(regexp = "^\\d{13}$", message = "Must be a valid cnp")
-    @Schema(example = "1012304789004")
+    @Schema(example = "1012304789005")
     private String cnp;
 
     @NotBlank(message = "First name must not be null or blank")
     @Pattern(regexp = "^[A-Z][a-zA-Z- ]+$", message = "Must be a valid first name")
-    @Schema(example = "Maria")
+    @Schema(example = "Ioana")
     private String firstName;
 
     @NotBlank(message = "First name must not be null or blank")
     @Pattern(regexp = "^[A-Z][a-zA-Z- ]+$", message = "Must be a valid last name")
-    @Schema(example = "Pop")
+    @Schema(example = "Novacovici")
     private String lastName;
 
     @Email(message = "Must be a valid email address")
-    @Schema(example = "maria.popescu96@gmail.com")
+    @Schema(example = "ioananovacovici@gmail.com")
     @Nullable
     private String email;
 

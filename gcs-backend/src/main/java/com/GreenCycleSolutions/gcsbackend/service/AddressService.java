@@ -47,7 +47,7 @@ public class AddressService {
 
     public List<AddressDTO> getAddressesFromCurrentDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
-        List<AddressEntity> addresses = addressRepository.findAddressEntitiesByDayEquals(currentDay);
+        List<AddressEntity> addresses = addressRepository.findAddressEntitiesByDayEqualsOrderByStreet(currentDay);
         if(!addresses.isEmpty()) {
             return addresses.stream()
                     .map(AddressConverter::convertToAddressDTO)

@@ -18,17 +18,17 @@ public class AddressDTO {
 
     @NotBlank(message = "Street name must not be null or blank")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "The street name must contain letters only")
-    @Schema(example = "Marte")
+    @Schema(example = "Macilor")
     private String street;
 
     @NotNull(message = "Street must not be null")
     @Min(value = 1)
-    @Schema(description = "The street number", example = "12")
+    @Schema(description = "The street number", example = "24")
     private Integer streetNumber;
 
     @NotNull(message = "Block name must not be null")
     @Pattern(regexp = "^[A-Z0-9]*$", message = "The block must contain uppercase letters and digits only")
-    @Schema(description = "Block name(is optional)", example = "A3")
+    @Schema(description = "Block name(is optional)", example = "B")
     private String block;
 
     @NotNull(message = "Apartment number must not be null")
@@ -36,7 +36,7 @@ public class AddressDTO {
     private Integer apartmentNumber;
 
     @NotNull(message = "The address must have an owner")
-    @Schema(description = "The user id, owner of the address", example = "1")
+    @Schema(description = "The user id, owner of the address", example = "602")
     @Min(value = 1)
     private Integer id;
 
